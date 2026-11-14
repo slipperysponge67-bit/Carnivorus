@@ -7,6 +7,8 @@ carnivorus: carnivorus.c
 
 test: carnivorus
 	sh tests/perft.sh
+	$(CC) $(CFLAGS) -o /tmp/carnivorus-regression tests/regression.c $(LDLIBS)
+	/tmp/carnivorus-regression
 
 clean:
 	rm -f carnivorus
