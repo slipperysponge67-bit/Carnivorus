@@ -1133,7 +1133,7 @@ static int qsearch(Thread *t, const Pos *p, int alpha, int beta, int ply, int qd
     return best;
 }
 
-static int search(Thread *t, const Pos *p, int depth, int alpha, int beta, int ply, int donull) {
+static int search(Thread *t, const Pos *p, int depth, int alpha, int beta, int ply, int donull, Move excl) {
     int pvnode = beta - alpha > 1;
     t->pv_len[ply] = ply;
     t->hist[t->hlen + ply] = p->key;
@@ -1175,12 +1175,24 @@ static int search(Thread *t, const Pos *p, int depth, int alpha, int beta, int p
             make_null(&np);
             t->stack_move[ply] = 0;
             int R = 3 + depth / 4 + ((se - beta) / 200 > 3 ? 3 : (se - beta) / 200);
-            int score = -search(t, &np, depth - 1 - R, -beta, -beta + 1, ply + 1, 0);
+            int score = -search(t, &np, depth - 1 - R, -beta, -beta + 1, ply + 1, 0, 0);
             if (stopped) return 0;
             if (score >= beta) return score >= MATE_BOUND ? beta : score;
         }
     }
     if (!ttmove && depth >= 6) depth--; /* cheap internal iterative reduction */
+
+    /* singular extension: if the TT move is much better than every
+     * alternative, extend it by one ply */
+    Move singular = 0;
+    if (excl == 0 && ply > 0 && ttmove && depth >= 8 && ttd >= depth - 3 &&
+        ttf != 3 && abs(tts) < MATE_BOUND) {
+        int ts = score_from_tt(tts, ply);
+        int sbeta = ts - 2 * depth;
+        if (sbeta < -MATE_BOUND) sbeta = -MATE_BOUND;
+        int s = search(t, p, (depth - 1) / 2, sbeta - 1, sbeta, ply, 0, ttmove);
+        if (!stopped && s < sbeta) singular = ttmove;
+    }
 
     Move mv[MAXMOVES];
     int sc[MAXMOVES];
@@ -1217,6 +1229,7 @@ static int search(Thread *t, const Pos *p, int depth, int alpha, int beta, int p
         int msc = sc[bi];
         mv[bi] = mv[i];
         sc[bi] = sc[i];
+        if (m == excl) continue;
         int quiet = !(m & F_CAP) && !MPROMO(m);
         Pos np = *p;
         if (!make_move(&np, m)) continue;
@@ -1227,11 +1240,11 @@ static int search(Thread *t, const Pos *p, int depth, int alpha, int beta, int p
             if ((m & F_CAP) && depth <= 6 && msc < 0 && see(p, m) < -80 * depth) continue;
         }
         legal++;
-        int newdepth = depth - 1;
+        int newdepth = depth - 1 + (m == singular);
         t->stack_move[ply] = m;
         int score;
         if (legal == 1) {
-            score = -search(t, &np, newdepth, -beta, -alpha, ply + 1, 1);
+            score = -search(t, &np, newdepth, -beta, -alpha, ply + 1, 1, 0);
         } else {
             int r = 0;
             if (depth >= 3 && legal >= (pvnode ? 4 : 3) && quiet) {
@@ -1246,9 +1259,9 @@ static int search(Thread *t, const Pos *p, int depth, int alpha, int beta, int p
                 if (r > newdepth - 1) r = newdepth - 1;
                 if (r < 0) r = 0;
             }
-            score = -search(t, &np, newdepth - r, -alpha - 1, -alpha, ply + 1, 1);
-            if (score > alpha && r > 0) score = -search(t, &np, newdepth, -alpha - 1, -alpha, ply + 1, 1);
-            if (score > alpha && score < beta) score = -search(t, &np, newdepth, -beta, -alpha, ply + 1, 1);
+            score = -search(t, &np, newdepth - r, -alpha - 1, -alpha, ply + 1, 1, 0);
+            if (score > alpha && r > 0) score = -search(t, &np, newdepth, -alpha - 1, -alpha, ply + 1, 1, 0);
+            if (score > alpha && score < beta) score = -search(t, &np, newdepth, -beta, -alpha, ply + 1, 1, 0);
         }
         if (stopped) return 0;
         if (quiet && nq < 64) quiets[nq++] = m;
@@ -1280,7 +1293,7 @@ static int search(Thread *t, const Pos *p, int depth, int alpha, int beta, int p
             }
         }
     }
-    if (legal == 0) return incheck ? -MATE + ply : 0;
+    if (legal == 0) return excl ? alpha : (incheck ? -MATE + ply : 0);
     {
         Move dm;
         int ds, dd, df, da;
@@ -1326,7 +1339,7 @@ static void iterative(Thread *t, int is_main) {
             beta = prev + delta;
         }
         for (;;) {
-            score = search(t, &t->root, d, alpha, beta, 0, 1);
+            score = search(t, &t->root, d, alpha, beta, 0, 1, 0);
             if (stopped) break;
             if (!is_main) break; /* helpers search full-window */
             if (score <= alpha) {
