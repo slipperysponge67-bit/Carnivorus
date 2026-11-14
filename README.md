@@ -36,7 +36,7 @@ cache, and improves time use. In a 128-game independent paired-opening test at
 Fresh Stockfish 14.1 limited-strength checks suggest roughly 2250 on that test
 scale, not an official rating. See [STRENGTH.md](STRENGTH.md) for methods,
 uncertainty, reproduction commands and the distinction between the relative gain
-and the noisy old absolute estimate. Full game records are in `strength-results.zip`.
+and the noisy old absolute estimate. Full final game records are in `MATCHES.pgn`, with summaries in `MATCH_RESULTS.json`.
 
 `make test` also runs exchange/search regressions. With `python-chess` installed,
 run `python3 tests/uci_smoke.py` for protocol checks and
