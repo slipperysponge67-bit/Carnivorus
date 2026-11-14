@@ -530,7 +530,7 @@ static inline int kdist(int a, int b) {
     return dr > df ? dr : df;
 }
 
-static int eval(const Pos *p) {
+static int eval_uncached(const Pos *p) {
     int mg[2] = {0, 0}, eg[2] = {0, 0}, npm[2] = {0, 0};
     int phase = 0;
     int katt_n[2] = {0, 0}, katt_u[2] = {0, 0};
@@ -686,6 +686,19 @@ static int eval(const Pos *p) {
     return p->side == WHITE ? score : -score;
 }
 
+/* Full-position evaluation cache, separate from the search bounds. */
+typedef struct { U64 key; int score; int valid; } EvalEntry;
+static EvalEntry eval_cache[65536];
+static int eval(const Pos *p) {
+    EvalEntry *e = &eval_cache[p->key & 65535];
+    if (e->valid && e->key == p->key) return e->score;
+    int value = eval_uncached(p);
+    e->key = p->key;
+    e->score = value;
+    e->valid = 1;
+    return value;
+}
+
 static int insufficient(const Pos *p) {
     if (p->bb[PAWN] | p->bb[6 + PAWN] | p->bb[ROOK] | p->bb[6 + ROOK] | p->bb[QUEEN] | p->bb[6 + QUEEN])
         return 0;
@@ -726,6 +739,10 @@ static int see(const Pos *p, Move m) {
             sub = mine & p->bb[stm * 6 + t];
             if (sub) break;
         }
+        /* A king cannot recapture onto a defended square. Other pins are
+         * intentionally left to the legal search, as SEE is only an estimate. */
+        if (t == KING && (attackers_to(p, to, occ ^ (sub & -sub)) &
+                          p->occ[stm ^ 1] & occ)) break;
         d++;
         gain[d] = cur - gain[d - 1];
         cur = SEEV[t];
@@ -735,7 +752,7 @@ static int see(const Pos *p, Move m) {
         stm ^= 1;
         if (d >= 32) break;
     }
-    d--;
+    /* Back up every exchange, including the last recapture. */
     while (d > 0) {
         int a = -gain[d - 1], b = gain[d];
         gain[d - 1] = -(a > b ? a : b);
@@ -781,7 +798,7 @@ typedef struct {
     long long start, soft, hard;
     int depth;
     long long nodes;
-    int infinite;
+    int infinite, fixed_time;
 } Limits;
 
 static Limits lim;
@@ -872,6 +889,8 @@ static inline int has_nonpawn(const Pos *p, int c) {
 static int qsearch(const Pos *p, int alpha, int beta, int ply, int qd) {
     if ((++nodes & 2047) == 0) check_time();
     if (stopped) return 0;
+    g_hist[g_hlen + ply] = p->key;
+    if (p->halfmove >= 100 || is_repetition(p, ply) || insufficient(p)) return 0;
     if (ply > seldepth) seldepth = ply;
     if (ply >= MAXPLY - 1) return eval(p);
     int incheck = in_check(p);
@@ -890,7 +909,6 @@ static int qsearch(const Pos *p, int alpha, int beta, int ply, int qd) {
         if (stand > alpha) alpha = stand;
         best = stand;
     } else {
-        if (qd >= 6) return eval(p);
         best = -MATE + ply;
     }
     Move mv[MAXMOVES];
@@ -923,7 +941,7 @@ static int qsearch(const Pos *p, int alpha, int beta, int ply, int qd) {
                 int victim = (m & F_EP) ? PAWN : p->board[MTO(m)] % 6;
                 if (stand + SEEV[victim] + 150 < alpha) continue;
             }
-            if (!(m & F_EP) && see(p, m) < 0) continue;
+            if (!MPROMO(m) && !(m & F_EP) && see(p, m) < 0) continue;
         }
         Pos np = *p;
         if (!make_move(&np, m)) continue;
@@ -945,7 +963,7 @@ static int qsearch(const Pos *p, int alpha, int beta, int ply, int qd) {
     }
     if (incheck && legal == 0) return -MATE + ply;
     (void)oa;
-    if (!stopped) {
+    if (!stopped && !(e->key == p->key && e->depth > 0)) {
         e = &tt[p->key & tt_mask];
         e->key = p->key;
         e->move = bestmove;
@@ -1042,15 +1060,15 @@ static int search(const Pos *p, int depth, int alpha, int beta, int ply, int don
         mv[bi] = mv[i];
         sc[bi] = sc[i];
         int quiet = !(m & F_CAP) && !MPROMO(m);
-        if (!pvnode && !incheck && legal > 0 && best > -MATE_BOUND) {
+        Pos np = *p;
+        if (!make_move(&np, m)) continue;
+        int gives_check = in_check(&np);
+        if (!pvnode && !incheck && !gives_check && legal > 0 && best > -MATE_BOUND) {
             if (quiet && depth <= 4 && legal >= 3 + depth * depth) continue;
             if (quiet && depth <= 5 && se + 90 + 90 * depth <= alpha) continue;
             if ((m & F_CAP) && depth <= 6 && msc < 0 && see(p, m) < -80 * depth) continue;
         }
-        Pos np = *p;
-        if (!make_move(&np, m)) continue;
         legal++;
-        int gives_check = in_check(&np);
         int newdepth = depth - 1;
         stack_move[ply] = m;
         int score;
@@ -1164,7 +1182,8 @@ static void think(const Pos *root) {
         for (int a = 0; a < 64; a++)
             for (int b = 0; b < 64; b++) history[c][a][b] /= 2;
     int prev = 0, maxd = lim.depth ? lim.depth : MAXPLY - 2;
-    Move best = first;
+    Move best = first, previous_best = 0;
+    int stable = 0, previous_score = 0;
     for (int d = 1; d <= maxd; d++) {
         root_depth = d;
         int alpha = -INF, beta = INF, delta = 18, score;
@@ -1194,11 +1213,23 @@ static void think(const Pos *root) {
             break;
         }
         best = root_best;
+        stable = best == previous_best ? stable + 1 : 0;
+        int score_drop = previous_score - score;
+        previous_best = best;
+        previous_score = score;
         prev = score;
         print_info(d, score, root);
         if (!lim.infinite) {
             long long el = now_ms() - lim.start;
-            if (lim.soft && el * 10 > lim.soft * 6) break;
+            /* Fixed movetime is a budget, not a fraction of a clock target.
+             * With a game clock, spend more on unstable or worsening moves. */
+            long long target = lim.soft;
+            if (!lim.fixed_time) {
+                target = target * (stable >= 4 ? 75 : stable >= 2 ? 90 : 125) / 100;
+                if (score_drop > 35) target = target * 3 / 2;
+                if (lim.hard && target > lim.hard) target = lim.hard;
+            }
+            if (target && el >= target) break;
             if (nlegal == 1 && d >= 4 && lim.soft) break;
             if (abs(score) >= MATE_BOUND && d >= 8) break;
         }
@@ -1289,6 +1320,7 @@ static void go(char *args) {
     lim.infinite = infinite;
     int t = g_pos.side == WHITE ? wtime : btime, inc = g_pos.side == WHITE ? winc : binc;
     if (movetime >= 0) {
+        lim.fixed_time = 1;
         lim.soft = lim.hard = movetime > move_overhead ? movetime - move_overhead : 1;
     } else if (t >= 0 && !infinite) {
         long long avail = t - move_overhead;
@@ -1321,7 +1353,7 @@ int main(void) {
         char *cmd = line;
         while (*cmd == ' ') cmd++;
         if (!strcmp(cmd, "uci")) {
-            printf("id name Carnivorus 1.0\nid author slipperysponge67-bit\n");
+            printf("id name Carnivorus 1.1\nid author slipperysponge67-bit\n");
             printf("option name Hash type spin default 64 min 1 max 4096\n");
             printf("option name Threads type spin default 1 min 1 max 1\n");
             printf("option name Move Overhead type spin default 30 min 0 max 5000\n");
