@@ -1,0 +1,279 @@
+[Event "validation-v1"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "1"]
+[White "carnivorus"]
+[Black "carnivorus-v1"]
+[Result "1-0"]
+
+1. e4 e5 2. Nf3 Nc6 3. Nc3 Nd4 4. Nxe5 Qe7 5. Nf3 Nxf3+ 6. Qxf3 c6 7. d3 Nf6 8. a3 h6 9. Be3 Qe6 10. g3 b5 11. h4 Bd6 12. Bh3 Qe7 13. Nxb5 cxb5 14. e5 Rb8 15. exd6 Qe5 16. O-O Bb7 17. Bf4 Qe6 18. Qe3 Qxe3 19. Bxe3 a6 20. Bd4 Bd5 21. Rfe1+ Be6 22. Bg2 O-O 23. b4 Kh8 24. Rab1 Ng4 25. Rbc1 Rfe8 26. c4 Bf5 27. Re7 Bxd3 28. Bh3 h5 29. Rxf7 Ne5 30. Bxe5 Rxe5 31. c5 Re2 32. Bxd7 Ra2 33. c6 Ra8 34. c7 Bg6 35. Bc6 Rg8 36. d7 Rd2 37. Rf4 Rxd7 38. Bxd7 Kh7 39. c8=Q Rxc8 40. Bxc8 Bd3 41. Bf5+ Bxf5 42. Rxf5 Kg6 43. Rg5+ Kh7 44. Rc7 a5 45. Rcxg7+ Kh8 46. Re7 a4 47. Rxb5 Kg8 48. Rb8# 1-0
+
+[Event "validation-v1"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "2"]
+[White "carnivorus-v1"]
+[Black "carnivorus"]
+[Result "1-0"]
+
+1. e4 e5 2. Nf3 Nc6 3. Nc3 Nd4 4. Nxe5 Qe7 5. Nf3 Nxf3+ 6. Qxf3 c6 7. Be2 b5 8. a3 Qe5 9. d3 Bd6 10. g3 Qf6 11. Nxb5 cxb5 12. e5 Bxe5 13. Qxa8 Ne7 14. O-O Bxb2 15. Rb1 Bxc1 16. Rfxc1 a6 17. c4 bxc4 18. Rxc4 O-O 19. Qf3 Qd6 20. a4 Nc6 21. Qe3 g6 22. f4 f5 23. h4 a5 24. Rb6 Rf6 25. Qc5 Kg7 26. Kh2 h5 27. Rc1 Qe7 28. Qxe7+ Nxe7 29. Rxf6 Kxf6 30. Rc5 Nc6 31. Bf3 Bb7 32. Bxc6 Bxc6 33. Rxa5 Ke6 34. Re5+ Kf7 35. a5 Bb7 36. Re1 Ba6 37. d4 Bd3 38. Rd1 Be2 39. Ra1 Ba6 40. Rb1 Bc4 41. Rb6 d6 42. Rxd6 Ke7 43. Rxg6 Kf7 44. Rg5 Bd3 45. Rxh5 Kg6 46. Rh8 Kf7 47. Rh6 Be4 48. a6 Kg7 49. Rd6 Kf7 50. d5 Ke7 51. Re6+ Kd7 52. Rxe4 fxe4 53. a7 e3 54. a8=Q e2 55. Qc6+ Ke7 56. d6+ Kf7 57. Qd7+ Kg8 58. Qe6+ Kh7 59. Qxe2 Kg7 60. Qe6 Kf8 61. d7 Kg7 62. d8=Q Kh7 63. Qdg8# 1-0
+
+[Event "validation-v1"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "3"]
+[White "carnivorus"]
+[Black "carnivorus-v1"]
+[Result "1-0"]
+
+1. d4 d5 2. c4 e6 3. h4 Qd7 4. Nf3 b5 5. Ne5 Qd6 6. cxb5 Nd7 7. Nxd7 Qxd7 8. a4 Nf6 9. Nc3 Bd6 10. g3 O-O 11. Bd2 Bb7 12. e3 c5 13. bxc6 Bxc6 14. Bd3 a6 15. O-O Kh8 16. Rc1 Rfc8 17. b3 h6 18. Ne2 Ba3 19. Ra1 Bd6 20. Ba5 Qb7 21. Nf4 Rab8 22. Qe2 Qe7 23. Bxa6 Bb7 24. Bb5 Ra8 25. Bb6 Bxf4 26. exf4 Ne4 27. Rfc1 Nc3 28. Qd3 Nxb5 29. Qxb5 f6 30. Rxc8+ Bxc8 31. Bc5 Qf7 32. Qb6 Qe8 33. a5 Bd7 34. a6 Rb8 35. Qc7 Rc8 36. Qd6 Bb5 37. a7 Bd3 38. b4 Ra8 39. Ra3 Bg6 40. Qf8+ Qxf8 41. Bxf8 Be8 42. Ra5 Bc6 43. Bc5 Kg8 44. Ra6 Be8 45. Rxe6 Kf7 46. Rd6 Bb5 47. Rxd5 Ke8 48. Rd6 Bc4 49. b5 Bxb5 50. Rb6 Rxa7 51. Rb8+ Kf7 52. Bxa7 Bc4 53. Rb7+ Kg6 54. Rc7 Bb3 55. Bc5 Bd5 56. Bf8 h5 57. Rxg7+ Kf5 58. Rh7 Kg4 59. Be7 Bf3 60. Bxf6 Kf5 61. Be5 Kg4 62. f5 Kxf5 63. Rf7+ Ke4 64. Rf4+ Kd5 65. Rxf3 Kc4 66. Kg2 Kd5 67. Rf5 Ke6 68. Rxh5 Kd5 69. Bg7+ Kc6 70. d5+ Kd6 71. Bf8+ Kc7 72. d6+ Kc8 73. Rc5+ Kd8 74. Rc7 Ke8 75. Bg7 Kd8 76. Bf6+ Ke8 77. d7+ Kf7 78. d8=Q+ Kg6 79. h5+ Kf5 80. Qd5+ Kxf6 81. Rf7# 1-0
+
+[Event "validation-v1"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "4"]
+[White "carnivorus-v1"]
+[Black "carnivorus"]
+[Result "0-1"]
+
+1. d4 d5 2. c4 e6 3. h4 Qd7 4. Nf3 b5 5. Ne5 Qd6 6. cxb5 Nd7 7. Nf3 a6 8. Nc3 Ngf6 9. a4 Qb4 10. e3 Be7 11. Bd2 Qd6 12. g3 O-O 13. Bd3 Bb7 14. a5 Rfb8 15. b4 Qxb4 16. Nxd5 Qd6 17. Nxe7+ Qxe7 18. Rb1 Qd6 19. O-O axb5 20. Rxb5 c5 21. Qe2 Bxf3 22. Qxf3 cxd4 23. Bb4 Qc7 24. exd4 e5 25. d5 e4 26. d6 Qc6 27. Rxb8+ Rxb8 28. Bxe4 Nxe4 29. Ba3 Qa4 30. Ra1 Rb3 31. Qe2 Qd4 32. Rd1 Rxg3+ 33. Kh2 Qe5 34. Rd5 Qf4 35. fxg3 Qxg3+ 36. Kh1 Nf2+ 37. Qxf2 Qxf2 38. Bc5 Qxh4+ 39. Kg1 Nxc5 40. Rxc5 Qd4+ 41. Kg2 Qxc5 42. Kf3 Qxd6 43. Ke3 Qe5+ 44. Kd3 Qxa5 45. Ke4 h5 46. Ke3 h4 47. Ke4 Qh5 48. Kd4 h3 49. Kd3 h2 50. Kc4 h1=Q 51. Kd4 Q5d5+ 52. Kc3 Qa1+ 53. Kc2 Qdd1# 0-1
+
+[Event "validation-v1"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "5"]
+[White "carnivorus"]
+[Black "carnivorus-v1"]
+[Result "1/2-1/2"]
+
+1. e4 c5 2. Nf3 d6 3. Ng5 h6 4. Nxf7 Kxf7 5. Bc4+ e6 6. O-O Nf6 7. Nc3 Nc6 8. d3 Kg8 9. Bb3 d5 10. exd5 exd5 11. Bf4 g5 12. Bg3 Kh7 13. f4 Bg4 14. Qd2 Rg8 15. fxg5 hxg5 16. Qf2 Be7 17. Nxd5 Nxd5 18. Qf7+ Kh8 19. Qxd5 Qxd5 20. Bxd5 Rgf8 21. Bxc6 bxc6 22. h3 Bd7 23. Rxf8+ Rxf8 24. Re1 Re8 25. c3 Kh7 26. Bc7 Bf8 27. Rxe8 Bxe8 28. Kf1 Kh6 29. g4 Bf7 30. c4 Bg7 31. b3 Bh8 32. a4 Bd4 33. Ke2 Kg6 34. Bb8 a6 35. Bc7 Be8 36. Bb6 Kf6 37. Bd8+ Kg6 38. Bb6 Kf6 39. Bd8+ Kg6 1/2-1/2
+
+[Event "validation-v1"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "6"]
+[White "carnivorus-v1"]
+[Black "carnivorus"]
+[Result "0-1"]
+
+1. e4 c5 2. Nf3 d6 3. Ng5 h6 4. Nxf7 Kxf7 5. Bc4+ e6 6. Nc3 Nf6 7. O-O Nc6 8. d3 Kg8 9. Bf4 a6 10. Bb3 b5 11. Kh1 Nd4 12. Be3 Nxb3 13. axb3 b4 14. Ne2 Bd7 15. h3 Be7 16. f3 Qc7 17. c3 a5 18. Qc2 Rd8 19. Nf4 Kf7 20. cxb4 axb4 21. d4 Bb5 22. Rfd1 g5 23. Nd3 Bxd3 24. Qxd3 Ra8 25. Rdc1 Rxa1 26. Rxa1 Rd8 27. Qc4 Nh5 28. d5 exd5 29. Qxd5+ Kg7 30. g4 Nf4 31. Bxf4 gxf4 32. Qc4 Bf6 33. Qc2 Kh8 34. Qd2 Be5 35. h4 Qf7 36. Qc2 Qf6 37. Qh2 Bxb2 38. Ra7 Qc3 39. Qxf4 Qe1+ 40. Kg2 Qe2+ 41. Kg3 Be5 42. Rf7 Bxf4+ 43. Kxf4 Qh2+ 44. Ke3 Qxh4 45. Rf5 Qe1+ 46. Kf4 Qc3 47. Kg3 Qxb3 48. Rh5 Qe3 49. g5 Rf8 50. Rxh6+ Kg7 51. Rh7+ Kxh7 52. g6+ Kxg6 53. e5 Qg1+ 54. Kh4 Rh8# 0-1
+
+[Event "validation-v1"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "7"]
+[White "carnivorus"]
+[Black "carnivorus-v1"]
+[Result "1/2-1/2"]
+
+1. d4 Nf6 2. c4 g6 3. Nf3 e6 4. Bg5 h6 5. Be3 d5 6. Nbd2 Nc6 7. h4 dxc4 8. Nxc4 b5 9. Nce5 Bb7 10. a3 Qd5 11. Rc1 Nxe5 12. dxe5 Qxd1+ 13. Kxd1 Ng4 14. Rxc7 Nxe3+ 15. fxe3 Bd5 16. g3 Bg7 17. h5 g5 18. Bh3 Bxf3 19. exf3 Bxe5 20. Rc5 Bxb2 21. Rxb5 Bxa3 22. Ke2 Rc8 23. Ra1 Bd6 24. Rxa7 Bxg3 25. Rbb7 O-O 26. Bxe6 Rc2+ 27. Kd3 Rc7 28. Rxc7 Bxc7 29. Bc4 Rd8+ 30. Ke4 Rd7 31. Kf5 Re7 32. f4 Kg7 33. Bd5 Bd8 34. Rxe7 Bxe7 35. fxg5 Bxg5 36. e4 f6 37. Bc4 Be3 38. e5 fxe5 39. Kxe5 Kf8 40. Ke6 Ke8 41. Bb5+ Kd8 42. Bd3 Bd4 43. Bc4 Bc3 44. Bb5 Bd4 45. Kd6 Bg7 46. Bd3 Bd4 47. Ke6 Bc3 48. Be4 Kc7 49. Ba8 Bb4 50. Bd5 Kb6 51. Ke5 Bc3+ 52. Ke4 Kc5 53. Bf7 Bf6 54. Bg8 Bc3 55. Bb3 Bd2 56. Bd1 Bc3 57. Be2 Bf6 58. Kf5 Bb2 59. Bf3 Bd4 60. Ke6 Bc3 61. Bd5 Bb4 62. Bg2 Bc3 63. Be4 Kd4 64. Kf5 Kc5 65. Bh1 Kd6 66. Bg2 Bd4 67. Be4 Kc5 68. Bb7 Kd6 69. Bc8 Bc3 70. Be6 Bd4 71. Bg8 Kc5 72. Bb3 Kd6 73. Bc4 Be3 74. Ke4 Bc1 75. Bd3 Kc5 76. Kf5 Bb2 77. Kg6 Bc1 78. Kf6 Kd5 79. Kf5 Be3 80. Be4+ Kd4 81. Bc6 Bd2 82. Be4 Be3 83. Bc6 Bd2 84. Be4 1/2-1/2
+
+[Event "validation-v1"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "8"]
+[White "carnivorus-v1"]
+[Black "carnivorus"]
+[Result "0-1"]
+
+1. d4 Nf6 2. c4 g6 3. Nf3 e6 4. Bg5 h6 5. Be3 b6 6. Nc3 Ba6 7. Qa4 Bb7 8. h3 Nc6 9. a3 a5 10. d5 exd5 11. Nxd5 Bg7 12. O-O-O O-O 13. Qc2 Nxd5 14. Rxd5 Re8 15. Rd1 d6 16. h4 Ne5 17. Bd4 Qe7 18. h5 Nxf3 19. exf3 Bxd4 20. Rxd4 g5 21. Rd1 Qe5 22. Kb1 Rad8 23. Bd3 Kh8 24. Bf5 d5 25. cxd5 Bxd5 26. Ka1 c6 27. Bd3 b5 28. Bf5 b4 29. axb4 axb4 30. Bd3 b3 31. Qd2 Bc4 32. Kb1 Bxd3+ 33. Qxd3 Rxd3 34. Rc1 Qa5 35. Rc5 Qa2+ 36. Kc1 Qa1# 0-1
+
+[Event "validation-v1"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "9"]
+[White "carnivorus"]
+[Black "carnivorus-v1"]
+[Result "1-0"]
+
+1. e4 e6 2. d4 d5 3. e5 c6 4. Nf3 Nd7 5. Be2 Ne7 6. O-O h6 7. Nc3 b5 8. Bd3 g5 9. a3 Bg7 10. Bd2 Bb7 11. Ne2 a5 12. c3 a4 13. Ng3 g4 14. Nh5 gxf3 15. Nxg7+ Kf8 16. Nh5 fxg2 17. Kxg2 Ra7 18. Qg4 Ke8 19. Ng7+ Kf8 20. Kh1 Bc8 21. Rg1 Qb6 22. Nxe6+ Ke8 23. Qh5 Qa6 24. Ng7+ Kf8 25. e6 Ng6 26. Bxg6 Nf6 27. Qh4 fxg6 28. Qxf6+ Kg8 29. Rxg6 Bxe6 30. Nxe6+ Kh7 31. Rxh6+ Kg8 32. Rxh8# 1-0
+
+[Event "validation-v1"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "10"]
+[White "carnivorus-v1"]
+[Black "carnivorus"]
+[Result "1/2-1/2"]
+
+1. e4 e6 2. d4 d5 3. e5 c6 4. Nf3 Nd7 5. Be2 Nh6 6. O-O Nf5 7. g4 Ne7 8. Nc3 h5 9. g5 g6 10. a3 Nf5 11. Bd3 Be7 12. Kh1 O-O 13. Bf4 a5 14. Re1 a4 15. Bxf5 gxf5 16. h4 Qb6 17. Ra2 c5 18. Rg1 Qd8 19. dxc5 Bxc5 20. Nd4 Bxd4 21. Qxd4 Nb8 22. Qd3 Bd7 23. Ne2 Qb6 24. Be3 Qc6 25. Nd4 Qc4 26. Qxc4 dxc4 27. Rd1 Na6 28. Kh2 Rfd8 29. Ne2 Bc6 30. Rxd8+ Rxd8 31. Ra1 b5 32. Nf4 Bf3 33. Kg3 Rd1 34. Rxd1 Bxd1 35. f3 Bxc2 36. Nxh5 b4 37. Nf6+ Kh8 38. axb4 Nxb4 39. f4 c3 40. bxc3 Nd3 41. Bd4 a3 42. Ne8 a2 43. c4 Bd1 44. Nd6 Kg7 45. Ba1 Kg6 46. Ne8 Bb3 47. Nf6 Bxc4 48. h5+ Kg7 49. h6+ Kh8 50. Ne8 Bd5 51. Nd6 Kg8 52. Ne8 Bc6 53. Nf6+ Kh8 54. Bc3 Nb4 55. Kf2 Nc2 56. Ke2 a1=Q 57. Bxa1 Nxa1 58. Kd3 Bf3 59. Kc4 Nc2 60. Kc5 Ne3 61. Kd6 Nd5 62. Nxd5 exd5 63. Kc5 Kh7 64. Kd4 Be4 65. Kc3 Bb1 66. Kd4 Be4 67. Kc3 Bb1 68. Kd4 1/2-1/2
+
+[Event "validation-v1"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "11"]
+[White "carnivorus"]
+[Black "carnivorus-v1"]
+[Result "1-0"]
+
+1. c4 e5 2. Nc3 Nf6 3. e4 Nc6 4. d3 Bc5 5. Be2 O-O 6. Nf3 Ng4 7. O-O h6 8. a3 a5 9. Nd2 Nf6 10. Nb3 Be7 11. f4 d6 12. Be3 b6 13. Kh1 a4 14. Nd2 Nd4 15. Bxd4 exd4 16. Nb5 c5 17. e5 dxe5 18. fxe5 Nd7 19. Bf3 Ra6 20. Re1 Bg5 21. Bd5 Be3 22. Nf3 Kh8 23. Nd6 f6 24. e6 Qc7 25. exd7 Bxd7 26. Nb5 Qb8 27. Nh4 Kh7 28. Qh5 Qe5 29. Be4+ Kg8 30. Qg6 f5 31. Bd5+ Kh8 32. Bb7 Raa8 33. Bxa8 Rxa8 34. Qxb6 Qf6 35. Qxf6 gxf6 36. Nd6 Rb8 37. Nhxf5 Bd2 38. Re2 Rxb2 39. Nxh6 Bc3 40. Rxb2 Bxb2 41. Re1 Kg7 42. Re7+ Kxh6 43. Rxd7 Bxa3 44. Ra7 Bb4 45. Rxa4 Kg5 46. g3 f5 47. Kg2 Kf6 48. Ra6 Kg6 49. Nb7+ Kg5 50. h4+ Kh5 51. Rf6 f4 52. Rxf4 Kg6 53. Rg4+ Kh7 54. Rg5 Kh6 55. Nxc5 Kh7 56. Ne6 Kh8 57. c5 Kh7 58. c6 Kh6 59. c7 Be7 60. c8=Q Bxg5 61. Qh8+ Kg6 62. Qg7+ Kf5 63. Nxd4+ Kg4 64. Qxg5# 1-0
+
+[Event "validation-v1"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "12"]
+[White "carnivorus-v1"]
+[Black "carnivorus"]
+[Result "1/2-1/2"]
+
+1. c4 e5 2. Nc3 Nf6 3. e4 Nc6 4. d3 Bc5 5. a3 a5 6. h3 O-O 7. Nf3 d6 8. Be2 h6 9. O-O b6 10. Kh1 Kh8 11. Na4 Bd4 12. Bd2 Bd7 13. Nc3 Bc5 14. Na4 Bd4 15. Nc3 Bc5 16. Na4 1/2-1/2
+
+[Event "validation-v1"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "13"]
+[White "carnivorus"]
+[Black "carnivorus-v1"]
+[Result "1-0"]
+
+1. Nf3 d5 2. g3 Nf6 3. c3 Bf5 4. d3 Nc6 5. Qb3 b6 6. h4 a5 7. Qa4 Qd7 8. Na3 e5 9. Nc2 Bd6 10. Ne3 Ne7 11. Qc2 Be6 12. Ng5 O-O 13. Bg2 Kh8 14. Nxe6 fxe6 15. Bd2 Bc5 16. O-O h6 17. a3 Rad8 18. b4 Bxe3 19. Bxe3 Ng4 20. Bd2 e4 21. dxe4 dxe4 22. Rad1 e3 23. Bxe3 Nxe3 24. Rxd7 Nxc2 25. Rxe7 Rd2 26. bxa5 bxa5 27. Rxe6 Nxa3 28. Ra1 Nb5 29. Rxa5 Nxc3 30. Bf3 Rb8 31. Re3 Rc2 32. Kg2 Rc1 33. Ree5 Rcb1 34. Rac5 Nb5 35. Be4 Rb2 36. Bd3 Nd6 37. Rxc7 Ra2 38. Ree7 Ne8 39. Ra7 Rxa7 40. Rxa7 Rd8 41. f4 Nf6 42. Kf3 h5 43. Bf5 Kg8 44. Bg6 Kf8 45. Ra5 Rc8 46. Bxh5 Nxh5 47. Rxh5 Rc3+ 48. e3 Ke7 49. Ra5 Kf6 50. Ra6+ Kf7 51. h5 Rc2 52. Ra7+ Kg8 53. e4 Rc3+ 54. Kg4 Re3 55. e5 Kf8 56. Kh4 Re2 57. Kg5 Re3 58. g4 Re4 59. Kf5 Rb4 60. e6 Rb6 61. g5 Rb5+ 62. Kg6 Rb6 63. f5 Rd6 64. Rxg7 Ke8 65. h6 Rd4 66. h7 Rh4 67. f6 Kd8 68. Rg8+ Kc7 69. e7 Re4 70. h8=Q Re1 71. Qh2+ Kb7 72. Rb8+ Kc6 73. Qc2+ Kd5 74. Rd8+ Ke5 75. Qf5# 1-0
+
+[Event "validation-v1"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "14"]
+[White "carnivorus-v1"]
+[Black "carnivorus"]
+[Result "0-1"]
+
+1. Nf3 d5 2. g3 Nf6 3. c3 Bf5 4. d3 Nc6 5. h4 e6 6. Qa4 a6 7. Nd4 b5 8. Nxc6 Qd6 9. Qc2 Qxc6 10. f3 h5 11. Bf4 Bd6 12. Qd2 O-O 13. Bh3 Bxh3 14. Bxd6 Qxd6 15. Rxh3 d4 16. cxd4 Qxd4 17. e3 Qd5 18. e4 Qd4 19. Kf1 Rfd8 20. a4 b4 21. Rh2 a5 22. Rg2 Nd7 23. Qd1 Nc5 24. Rd2 Nxd3 25. Qe2 c5 26. e5 Qd5 27. Qe3 c4 28. Ra2 Rac8 29. Kg2 Rc5 30. Qg5 c3 31. bxc3 bxc3 32. Nxc3 Rxc3 33. Qxh5 Ne1+ 34. Kh3 Qxd2 35. Rxd2 Rxd2 36. Qg4 Nd3 37. Qh5 Rc4 38. Qg5 Nf2+ 39. Kg2 Ne4+ 40. Qxd2 Nxd2 41. g4 Rxa4 42. Kf2 Ra3 43. f4 Ne4+ 44. Ke1 Re3+ 45. Kd1 Nf2+ 46. Kc2 Nxg4 47. h5 Rf3 48. f5 Rxf5 49. Kc3 Rxh5 50. Kc2 Rxe5 51. Kc3 f5 52. Kc2 f4 53. Kc3 f3 54. Kd2 Re3 55. Kc2 f2 56. Kd1 f1=Q+ 57. Kc2 Qf2+ 58. Kb1 Re1# 0-1
+
+[Event "validation-v1"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "15"]
+[White "carnivorus"]
+[Black "carnivorus-v1"]
+[Result "1-0"]
+
+1. e4 c6 2. d4 d5 3. e5 Bf5 4. g4 Be4 5. f3 Bg6 6. Ne2 Nd7 7. h4 h6 8. h5 Bh7 9. Nbc3 e6 10. a3 Ne7 11. Bf4 c5 12. Nb5 Nc6 13. c3 cxd4 14. cxd4 a6 15. Nd6+ Bxd6 16. exd6 O-O 17. b4 f5 18. Bh3 fxg4 19. fxg4 Kh8 20. O-O Rc8 21. Kh2 b5 22. Rc1 Nf6 23. Be5 Qd7 24. Nc3 Be4 25. Qd2 Bh7 26. Kh1 Ne4 27. Nxe4 Bxe4+ 28. Bg2 Bxg2+ 29. Kxg2 Rxf1 30. Rxf1 Nxe5 31. dxe5 Kh7 32. Kg3 Kh8 33. Qe3 Kg8 34. Rf3 Rc4 35. Qf2 d4 36. Rf8+ Kh7 37. Rf7 Rc3+ 38. Kh2 Qd8 39. Qf6 Qxf6 40. exf6 Rc6 41. Rxg7+ Kh8 42. Rc7 d3 43. d7 Rd6 44. Rc8+ Kh7 45. f7 Rc6 46. Rh8+ Kxh8 47. d8=Q+ Kg7 48. f8=Q+ Kh7 49. Qxd3# 1-0
+
+[Event "validation-v1"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "16"]
+[White "carnivorus-v1"]
+[Black "carnivorus"]
+[Result "0-1"]
+
+1. e4 c6 2. d4 d5 3. e5 Bf5 4. g4 Be4 5. f3 Bg6 6. Ne2 e6 7. Be3 Qb6 8. Qc1 c5 9. a3 Nc6 10. c3 h5 11. g5 cxd4 12. Bxd4 Bc5 13. Qd2 Nge7 14. b4 Bxd4 15. cxd4 Nf5 16. Kf2 Nfxd4 17. Nxd4 Nxd4 18. Qe3 Nxf3 19. Qxb6 axb6 20. Kxf3 Be4+ 21. Kf2 Bxh1 22. Nd2 d4 23. Nc4 O-O 24. Nxb6 Ra7 25. Bd3 Bd5 26. a4 h4 27. Nxd5 exd5 28. a5 Re8 29. Re1 Raa8 30. Kf3 Rec8 31. Ke2 Rc3 32. g6 Re8 33. Kd2 Rb3 34. Bf5 Rxb4 35. e6 fxe6 36. Bxe6+ Kf8 37. Kd3 Re7 38. Re5 Rc7 39. Rxd5 Rc3+ 40. Ke4 Re3+ 41. Kf5 d3 42. Bc8 Rb2 43. Kf4 Re8 44. Bd7 Rf2+ 45. Kg5 Rd8 46. Rxd3 Rg2+ 47. Kxh4 Ke7 48. Rg3 Rh8+ 49. Kg4 Rxg3+ 50. Kxg3 Kxd7 51. h3 Rh6 52. Kf3 Rxh3+ 53. Kf4 Ra3 54. Kg5 Rxa5+ 55. Kg4 Ra4+ 56. Kg3 Ra6 57. Kf4 Rc6 58. Kf5 Re6 59. Kf4 b5 60. Kg3 b4 61. Kf3 b3 62. Kf2 b2 63. Kg3 b1=Q 64. Kg4 Qe4+ 65. Kg3 Rxg6+ 66. Kf2 Rg2+ 67. Kf1 Qe2# 0-1
+
+[Event "validation-v1"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "17"]
+[White "carnivorus"]
+[Black "carnivorus-v1"]
+[Result "1-0"]
+
+1. d4 d5 2. Nf3 Nf6 3. Bf4 e6 4. e3 Nc6 5. c3 h6 6. Nbd2 g5 7. Bg3 Nh5 8. Bb5 Nxg3 9. hxg3 Bg7 10. Ne5 Bxe5 11. Bxc6+ bxc6 12. dxe5 Ba6 13. Nb3 Qb8 14. Nc5 Qb6 15. b4 Bc4 16. Qh5 a5 17. Nxe6 axb4 18. Nxg5 Rf8 19. Nxf7 Ke7 20. Nxh6 bxc3 21. Nf5+ Kd7 22. e6+ Kxe6 23. Nd4+ Kd7 24. Qg4+ Kd8 25. Rh7 Rf7 26. Rxf7 Qb1+ 27. Rxb1 Bxa2 28. Qg8# 1-0
+
+[Event "validation-v1"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "18"]
+[White "carnivorus-v1"]
+[Black "carnivorus"]
+[Result "1/2-1/2"]
+
+1. d4 d5 2. Nf3 Nf6 3. Bf4 e6 4. e3 Nc6 5. c3 Be7 6. h3 O-O 7. Nbd2 Bd6 8. Bd3 Bxf4 9. exf4 Bd7 10. O-O a5 11. Re1 a4 12. a3 Kh8 13. Ne5 h6 14. Qf3 Ne7 15. g4 Ne8 16. g5 Nd6 17. Qh5 Ng8 18. Ndf3 c6 19. gxh6 gxh6 20. Ng4 f5 21. Nxh6 Nf6 22. Nf7+ Kg7 23. Nxd8 Nxh5 24. Nxe6+ Bxe6 25. Rxe6 Ne4 26. Re7+ Kh6 27. Ne5 Nxf4 28. h4 Rae8 29. Rxe8 Rxe8 30. f3 Rg8+ 31. Kf1 Nd6 32. Kf2 Nh3+ 33. Ke1 Kh5 34. Bf1 Kxh4 35. Kd2 Rg1 36. Re1 Nf4 37. Bd3 Rxe1 38. Kxe1 Nxd3+ 39. Nxd3 Nc4 40. Kf2 f4 41. Kg2 Kg5 42. Kf2 Kf5 43. Ke2 b5 44. Ke1 Na5 45. Ke2 Kg5 46. Kf1 Nc4 47. Ke2 Na5 48. Kf1 Kf5 49. Ke2 1/2-1/2
+
+[Event "validation-v1"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "19"]
+[White "carnivorus"]
+[Black "carnivorus-v1"]
+[Result "1/2-1/2"]
+
+1. e4 g6 2. d4 Bg7 3. Nf3 e6 4. e5 Nc6 5. Nc3 d6 6. Bf4 h6 7. exd6 cxd6 8. Nb5 Bf8 9. d5 exd5 10. Qxd5 Nf6 11. Nxd6+ Bxd6 12. Qxd6 Be6 13. Qa3 g5 14. Be3 Bf5 15. Rd1 Qe7 16. Qxe7+ Kxe7 17. Bc5+ Ke8 18. Nd4 Ne4 19. Nxf5 Nxc5 20. Bb5 Kf8 21. O-O Ne7 22. Nd6 Nc8 23. Nc4 a6 24. Bd7 b5 25. Ne5 Ne7 26. f4 Nxd7 27. Rxd7 f5 28. g4 gxf4 29. Rxf4 Ke8 30. gxf5 Nc6 31. f6 Nxe5 32. Re7+ Kf8 33. Rxe5 Ra7 34. Rd4 Rg8+ 35. Kh1 Kf7 36. Rd6 b4 37. b3 Re8 38. Rxe8 Kxe8 39. Kg2 a5 40. Rc6 Rd7 41. Kg3 Kf7 42. Kg4 Rd5 43. h3 Rg5+ 44. Kf4 Rh5 45. c4 bxc3 46. Rxc3 Kxf6 47. Rc6+ Kf7 48. Ra6 Kf8 49. Ra7 Ke8 50. Kg4 Rg5+ 51. Kf3 Rf5+ 52. Ke3 Re5+ 53. Kf2 Kd8 54. Kg3 Rh5 55. Ra6 Rd5 56. Kh4 Ke7 57. Rxh6 Rd2 58. a4 Rd4+ 59. Kg5 Rd5+ 60. Kg4 Rd4+ 61. Kf5 Rd3 62. h4 Rxb3 63. Re6+ Kf8 64. Re4 Rb2 65. Re5 Rb4 66. Rxa5 Rxh4 67. Ra7 Ke8 68. a5 Kd8 69. Ke6 Kc8 70. Kd6 Rh5 71. Kc6 Rh6+ 72. Kc5 Rh5+ 73. Kb4 Rh4+ 74. Kb3 Rh3+ 75. Kc4 Rh4+ 76. Kc3 Rh3+ 77. Kc2 Rh5 78. a6 Kb8 79. Rb7+ Ka8 80. Kc3 Rh3+ 81. Kd4 Rh6 82. Rg7 Rd6+ 83. Kc5 Rxa6 84. Kc4 Ra2 85. Kb3 Ra7 86. Rg8+ Kb7 87. Rg7+ Ka8 88. Rg8+ Kb7 89. Rg2 Kc6 90. Rg6+ Kc5 91. Rg5+ Kc6 92. Rg6+ Kc5 93. Rg5+ Kc6 1/2-1/2
+
+[Event "validation-v1"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "20"]
+[White "carnivorus-v1"]
+[Black "carnivorus"]
+[Result "1/2-1/2"]
+
+1. e4 g6 2. d4 Bg7 3. Nf3 e6 4. e5 Nc6 5. Nc3 Nge7 6. Bd3 d6 7. Qe2 dxe5 8. dxe5 Nd4 9. Qe4 Nxf3+ 10. gxf3 Bd7 11. Bg5 O-O 12. Qh4 Re8 13. f4 Bc6 14. O-O h5 15. Rfd1 Kf8 16. Bxg6 Nxg6 17. Bxd8 Nxh4 18. Bxh4 b5 19. Rd4 a5 20. Ne4 a4 21. a3 Bd5 22. f3 Kg8 23. Rad1 Kh8 24. Kh1 Bh6 25. Bf6+ Kh7 26. Bg5 Bxg5 27. Nxg5+ Kg6 28. Ne4 Rg8 29. Rf1 Kf5 30. Ng3+ Kg6 31. f5+ Kg5 32. h4+ Kh6 33. fxe6 Rxg3 34. Rxd5 fxe6 35. Kh2 Rxf3 36. Rxf3 exd5 37. Rf6+ Kg7 38. Kg3 Rf8 39. Rc6 Kf7 40. Rxc7+ Ke6 41. c3 Rg8+ 42. Kh3 Rf8 43. Rb7 Rf3+ 44. Kg2 Rf4 45. Kg3 Rg4+ 46. Kh3 Kxe5 47. Rxb5 Re4 48. Rb8 Re3+ 49. Kg2 Re4 50. Kg3 Rg4+ 51. Kh3 Re4 52. Rh8 Re3+ 53. Kg2 Re2+ 54. Kf3 Rxb2 55. Rxh5+ Kd6 56. Rh6+ Ke5 57. Ra6 Rc2 58. Rxa4 Rxc3+ 59. Kg4 Rc1 60. Ra8 Rg1+ 61. Kf3 Rh1 62. Ra4 Rc1 63. Ra7 Rh1 64. Rh7 Rh3+ 65. Kg4 Rxa3 66. h5 Ra4+ 67. Kg5 Ra2 68. h6 Rg2+ 69. Kh4 d4 70. Rd7 Rh2+ 71. Kg5 Rg2+ 72. Kh5 Kf6 73. h7 Rh2+ 74. Kg4 Kg6 75. Rxd4 Kxh7 76. Kg3 Rb2 77. Rd7+ Kg6 78. Kf4 Kf6 79. Ke4 Ke6 80. Ra7 Rb4+ 81. Kd3 Rb3+ 82. Kc4 Rb2 83. Kd4 Rb5 84. Rh7 Rb2 85. Ra7 Rb5 86. Ke4 Rb4+ 87. Kd3 Rb3+ 88. Kc4 Rb2 1/2-1/2
+
+[Event "validation-v1"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "21"]
+[White "carnivorus"]
+[Black "carnivorus-v1"]
+[Result "1-0"]
+
+1. e4 e5 2. Nf3 Nf6 3. Nxe5 d6 4. Nc4 b5 5. Ne3 Bd7 6. Nc3 c6 7. Bd3 Na6 8. a4 Nc5 9. axb5 Nxd3+ 10. cxd3 cxb5 11. h3 b4 12. Ncd5 Nxd5 13. Nxd5 a5 14. b3 Be6 15. Bb2 Bxd5 16. exd5 Qe7+ 17. Kf1 Qg5 18. Qf3 f6 19. Qe4+ Be7 20. Re1 f5 21. Qe6 h5 22. h4 Rh6 23. Qg8+ Kd7 24. Qxa8 Qxd2 25. Qb7+ Kd8 26. Qxe7+ Kc8 27. Qe8+ Kc7 28. Re7+ Kb6 29. Qc6# 1-0
+
+[Event "validation-v1"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "22"]
+[White "carnivorus-v1"]
+[Black "carnivorus"]
+[Result "0-1"]
+
+1. e4 e5 2. Nf3 Nf6 3. Nxe5 d6 4. Nc4 b5 5. Ne3 Bd7 6. Nc3 c6 7. Bd3 Be7 8. a4 b4 9. Ne2 c5 10. c3 Nc6 11. O-O O-O 12. f4 a5 13. b3 Ng4 14. Nf5 Bxf5 15. exf5 Qb6 16. Kh1 c4 17. Bxc4 Nf2+ 18. Rxf2 Qxf2 19. Bb2 Bf6 20. d4 Rfe8 21. Rc1 Re3 22. Bb5 Na7 23. Bd3 Rae8 24. Ba1 Bh4 25. Ba6 Rxe2 26. Bxe2 Rxe2 27. Qf1 Qxf1+ 28. Rxf1 d5 29. cxb4 axb4 30. g3 Bd8 31. Rc1 Re3 32. Rb1 Nc6 33. Kg1 Na5 34. Kf2 Rxb3 35. Re1 Kf8 36. Re5 Ra3 37. Rxd5 Ke7 38. Bb2 Ra2 39. Re5+ Kd6 40. Re2 Nc4 41. Bc1 Rxa4 42. Kf3 Kd5 43. Re8 Bf6 44. Rf8 Ra1 45. Rb8 Rxc1 46. Rxb4 Nd6 47. Kg4 Bxd4 48. Rb8 Ke4 49. Rd8 Rc6 50. Rh8 h6 51. Rf8 Rc7 52. Rb8 Nxf5 53. Re8+ Re7 54. Ra8 h5+ 55. Kxh5 Re6 56. Ra3 Ne3 57. Rxe3+ Kxe3 58. Kh4 Kf3 59. g4 Rh6+ 60. Kg5 Ke4 61. h4 Bf6# 0-1
+
+[Event "validation-v1"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "23"]
+[White "carnivorus"]
+[Black "carnivorus-v1"]
+[Result "1-0"]
+
+1. d4 f5 2. g3 Nf6 3. c4 c6 4. Nf3 e6 5. Nc3 Be7 6. Bg2 d5 7. O-O dxc4 8. Ne5 O-O 9. Nxc4 Nbd7 10. a4 a5 11. e4 Nb6 12. Ne5 Kh8 13. Bf4 fxe4 14. Nxe4 Nfd5 15. Bd2 Nd7 16. Nc4 b6 17. Bh3 N7f6 18. Ng5 Bb4 19. Re1 Qc7 20. Rc1 Bxd2 21. Qxd2 Ng8 22. Bxe6 Ngf6 23. Ne5 Ne7 24. Ngf7+ Rxf7 25. Nxf7+ Kg8 26. Qe3 Ba6 27. Ne5+ Kh8 28. Qf4 Qb8 29. Nf7+ Kg8 30. Qxb8+ Rxb8 31. Ne5+ Kh8 32. Nxc6 Nxc6 33. Rxc6 Bd3 34. Rec1 g5 35. Rc8+ Rxc8 36. Rxc8+ Kg7 37. Rc6 Ne4 38. Rxb6 h5 39. f4 h4 40. Kg2 gxf4 41. gxf4 Nd2 42. Kf2 Nf1 43. Rb3 Ba6 44. Rh3 Nd2 45. Rxh4 Bc4 46. Bxc4 Nxc4 47. Rh5 Nxb2 48. Rxa5 Kf7 49. Ke2 Kf6 50. h4 Kf7 51. h5 Kg8 52. Rg5+ Kh7 53. a5 Nc4 54. a6 Nb6 55. a7 Na8 56. Kd3 Nc7 57. Rc5 Na8 58. Rc8 Nb6 59. Rb8 Nd5 60. a8=Q Nxf4+ 61. Ke4 Ne6 62. Qc6 Ng5+ 63. Kf5 Ne6 64. Qxe6 Kg7 65. Qg6# 1-0
+
+[Event "validation-v1"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "24"]
+[White "carnivorus-v1"]
+[Black "carnivorus"]
+[Result "0-1"]
+
+1. d4 f5 2. g3 Nf6 3. c4 c6 4. Nf3 e6 5. Nc3 Be7 6. Bg2 O-O 7. O-O d5 8. a3 Nbd7 9. c5 Ne4 10. h4 Nxc3 11. bxc3 b6 12. cxb6 axb6 13. Bf4 Kh8 14. a4 c5 15. Qc2 h6 16. Rfb1 Bb7 17. a5 g5 18. Bd2 gxh4 19. Bxh6 Rg8 20. gxh4 cxd4 21. Bg5 Bxg5 22. hxg5 Rc8 23. a6 Ba8 24. Ra4 dxc3 25. Rh4+ Kg7 26. Nd4 Re8 27. Rh6 Nf8 28. f4 Qc7 29. e3 Kg8 30. Bf1 Qc5 31. Bb5 Re7 32. Kf2 Rcc7 33. Rbh1 Rh7 34. Bd3 Rxh6 35. Rxh6 Ra7 36. Nxe6 Nxe6 37. Rxe6 d4 38. Qc1 Qd5 39. Rg6+ Kf7 40. Rxb6 Qg2+ 41. Ke1 Re7 42. Bc4+ Kg7 43. Bf1 Qg1 44. Rb5 Rxe3+ 45. Qxe3 dxe3 46. Rb7+ Bxb7 47. Ke2 Bxa6+ 48. Kd1 Bd3 49. g6 Qxf1# 0-1
+
+[Event "validation-v1"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "25"]
+[White "carnivorus"]
+[Black "carnivorus-v1"]
+[Result "1-0"]
+
+1. e4 e5 2. Nf3 Nc6 3. d4 exd4 4. Nxd4 Nxd4 5. Qxd4 Qe7 6. Nc3 c5 7. Qd3 h6 8. Bf4 Qf6 9. Bg3 Ne7 10. Nb5 Nc6 11. Nc7+ Kd8 12. Nxa8 Qxb2 13. Rd1 Nb4 14. Qb3 Nxc2+ 15. Kd2 Qxb3 16. axb3 Nd4 17. Bc4 f6 18. Bd5 d6 19. Ra1 a6 20. Nb6 Be6 21. Bxe6 Nxe6 22. f3 f5 23. h4 Nd4 24. Rab1 fxe4 25. fxe4 Be7 26. b4 cxb4 27. Rxb4 Nc6 28. Rbb1 Re8 29. Kd3 Ne5+ 30. Bxe5 dxe5 31. Nd5 Kc8 32. Rhc1+ Kb8 33. Rc7 b5 34. Rxe7 Rxe7 35. Nxe7 Ka7 36. h5 Kb6 37. Nd5+ Ka7 38. Ra1 Kb7 39. Nb4 a5 40. Rxa5 Kc7 41. Rxb5 Kd6 42. Rb7 Kc5 43. Nd5 Kc6 44. Rxg7 Kd6 45. Rh7 Ke6 46. Re7+ Kd6 47. Rg7 Kc6 48. Rg6+ Kd7 49. Rxh6 Ke8 50. Rf6 Kd8 51. h6 Ke8 52. h7 Kd7 53. Rf7+ Kc6 54. h8=Q Kb5 55. Qb8+ Kc5 56. Qb6# 1-0
+
+[Event "validation-v1"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "26"]
+[White "carnivorus-v1"]
+[Black "carnivorus"]
+[Result "0-1"]
+
+1. e4 e5 2. Nf3 Nc6 3. d4 exd4 4. Nxd4 Nxd4 5. Qxd4 Qe7 6. Bf4 Qb4+ 7. Qxb4 Bxb4+ 8. Nd2 c6 9. Be2 Nf6 10. c3 Be7 11. O-O O-O 12. Rfd1 d5 13. e5 Nd7 14. Nb3 Re8 15. h3 g5 16. Bg3 Nxe5 17. a4 Bd6 18. a5 a6 19. Nd4 h6 20. b4 Bd7 21. Rab1 Re7 22. Bh2 Rae8 23. Kh1 Kh8 24. Ra1 f6 25. f4 Nf7 26. fxg5 hxg5 27. Bxd6 Nxd6 28. Bh5 Rf8 29. Re1 Rxe1+ 30. Rxe1 Ne4 31. Re3 f5 32. Kg1 Kg7 33. Bd1 f4 34. Rd3 Rh8 35. Bf3 Kf6 36. Bd1 Ng3 37. Bf3 g4 38. Bd1 gxh3 39. gxh3 Bxh3 40. Bf3 Ne4 41. Bg2 Bg4 42. Kf1 c5 43. bxc5 Nxc5 44. Rd2 Ne4 45. Rb2 Rh7 46. Bf3 Bxf3 47. Rb6+ Kg5 48. Nxf3+ Kg4 49. Kg2 Rg7 50. Rb3 Kh5+ 51. Kh2 Rg3 52. Ne5 f3 53. Rb2 Kh4 54. Nd3 Rg7 55. Rc2 Kg4 56. c4 d4 57. Kg1 f2+ 58. Rxf2 Nxf2 59. Kxf2 Re7 60. c5 Re3 61. Nb4 Rb3 62. Nd5 Rb2+ 63. Ke1 Kf3 64. Kd1 Ke4 65. Nb6 Kd3 66. Ke1 Rb5 67. Kf2 Rxc5 68. Kf3 Rxa5 69. Nc8 Kc2 70. Nd6 d3 71. Nc4 d2 72. Ne3+ Kc1 73. Ke4 Ra3 74. Nd5 d1=Q 75. Ke5 Ra5 76. Kf5 Qxd5+ 77. Kf4 Ra4+ 78. Kg3 Qf5 79. Kh2 Qf2+ 80. Kh1 Rh4# 0-1
+
+[Event "validation-v1"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "27"]
+[White "carnivorus"]
+[Black "carnivorus-v1"]
+[Result "1/2-1/2"]
+
+1. d4 d5 2. c4 e6 3. cxd5 exd5 4. Nc3 Nf6 5. Qd3 Nc6 6. Nf3 h6 7. a3 a6 8. h3 Be6 9. g4 Bd6 10. b4 O-O 11. g5 hxg5 12. Nxg5 Qc8 13. Nxe6 Qxe6 14. Bd2 Rae8 15. Rg1 Kh8 16. Rg5 g6 17. Qe3 Qd7 18. Qd3 Qe6 19. Qe3 Qxe3 20. Bxe3 Nxb4 21. axb4 Bxb4 22. Bd2 Bxc3 23. Bxc3 Ne4 24. Rxd5 Nxc3 25. Rd7 c5 26. dxc5 Ne4 27. Rc7 Rc8 28. Rxb7 Nxc5 29. Ra7 Ra8 30. Rc7 Ne6 31. Rc2 a5 32. Bg2 Ra7 33. Rca2 Nf4 34. Bf3 Nxh3 35. Rxa5 Rxa5 36. Rxa5 Rb8 37. Ra8 Rxa8 38. Bxa8 Kg7 39. e3 f5 40. Bg2 Ng5 41. f4 Ne6 42. Bd5 Kf6 43. Ke2 Nc5 44. Kd2 g5 45. fxg5+ Kxg5 46. Kc3 f4 47. exf4+ Kxf4 48. Kd4 Ne6+ 49. Bxe6 1/2-1/2
+
+[Event "validation-v1"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "28"]
+[White "carnivorus-v1"]
+[Black "carnivorus"]
+[Result "0-1"]
+
+1. d4 d5 2. c4 e6 3. cxd5 exd5 4. Nc3 Nf6 5. Qd3 Nc6 6. Nf3 a6 7. g3 Bd6 8. a3 O-O 9. h4 h6 10. Be3 Re8 11. Rc1 Qe7 12. Bh3 Bxh3 13. Rxh3 Qe6 14. Rh1 Bxg3 15. Rg1 Qxe3 16. Qxe3 Rxe3 17. Rxg3 Ree8 18. b4 Ne7 19. Na4 Nf5 20. Rg2 b5 21. Nb2 Re7 22. Nd3 a5 23. Kf1 axb4 24. axb4 Ra2 25. Nf4 Rb2 26. Nd3 Rbxe2 27. Rxc7 Rxf2+ 28. Rxf2 Rxc7 29. Ra2 Rc4 30. Ra8+ Kh7 31. Nfe5 Rxd4 32. Nxf7 Rxh4 33. Rh8+ Kg6 34. Nfe5+ Kh5 35. Kg2 Ne3+ 36. Kf2 Nc4 37. Nf3 Ne4+ 38. Kg1 Rg4+ 39. Kf1 g5 40. Rf8 Nc3 41. Kf2 Re4 42. Nc5 Nd1+ 43. Kg1 Rg4+ 44. Kh2 Nce3 45. Ne1 Rxb4 46. Ned3 Rc4 47. Kg3 Rc2 48. Rf7 Nb2 49. Kf3 Nbc4 50. Rd7 Rd2 51. Rf7 Kh4 52. Rd7 g4+ 53. Kf4 Rd1 54. Nf2 Rf1 55. Nd3 Ng2+ 56. Kf5 g3 57. Kg6 Nf4+ 58. Kxh6 gxf2 59. Nxf2 Rxf2 60. Rd8 b4 61. Rb8 Nd3 62. Kg7 Ne3 63. Rb7 Kg5 64. Rb5 Kf4 65. Kf6 Ke4+ 66. Kg5 Rg2+ 67. Kh6 d4 68. Rb7 Nf5+ 69. Kh7 Ne5 70. Ra7 b3 71. Kh8 b2 72. Rg7 Nxg7 73. Kh7 b1=Q 74. Kg8 Ne6+ 75. Kh7 Qh1# 0-1
