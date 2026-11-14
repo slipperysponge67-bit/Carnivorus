@@ -57,7 +57,7 @@ opponents, openings, hardware and time control.
 Final openings were generated with seed 20261115 after selecting the candidate,
 and are saved in `tests/validation_openings.json`. Screening used seed 20261114.
 The earlier 48-game screening (+36 =10 -2) is not included in the 128-game result.
-Final validation PGNs are in `MATCHES.pgn`; final and screening summaries
+Final validation PGNs are in `MATCHES-1.pgn` through `MATCHES-8.pgn`; final and screening summaries
 are in `MATCH_RESULTS.json`.
 
 ## Fresh approximate absolute rating
