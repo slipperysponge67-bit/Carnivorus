@@ -6,7 +6,7 @@ carnivorus: carnivorus.c
 	$(CC) $(CFLAGS) -o $@ $< $(LDLIBS)
 
 test: carnivorus
-	./tests/perft.sh
+	sh tests/perft.sh
 
 clean:
 	rm -f carnivorus
