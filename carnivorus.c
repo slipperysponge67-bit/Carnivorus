@@ -1546,7 +1546,7 @@ int main(void) {
         char *cmd = line;
         while (*cmd == ' ') cmd++;
         if (!strcmp(cmd, "uci")) {
-            printf("id name Carnivorus 1.1\nid author slipperysponge67-bit\n");
+            printf("id name Carnivorus 1.2\nid author slipperysponge67-bit\n");
             printf("option name Hash type spin default 64 min 1 max 4096\n");
             printf("option name Threads type spin default 1 min 1 max 32\n");
             printf("option name Move Overhead type spin default 30 min 0 max 5000\n");
