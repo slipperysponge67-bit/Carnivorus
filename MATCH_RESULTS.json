@@ -1,0 +1,132 @@
+{
+  "longer-v1.summary.json": {
+    "n": 16,
+    "wins": 13,
+    "draws": 3,
+    "losses": 0,
+    "score": 0.90625,
+    "elo_diff": 394.1106972717174,
+    "approx_95_elo": [
+      259.431468360832,
+      954.6336550640461
+    ],
+    "errors": []
+  },
+  "eval-qfix.summary.json": {
+    "n": 64,
+    "wins": 22,
+    "draws": 17,
+    "losses": 25,
+    "score": 0.4765625,
+    "elo_diff": -16.297987076023766,
+    "approx_95_elo": [
+      -93.96796069289475,
+      59.75196293061092
+    ],
+    "errors": []
+  },
+  "sf2200.summary.json": {
+    "n": 32,
+    "wins": 13,
+    "draws": 6,
+    "losses": 13,
+    "score": 0.5,
+    "elo_diff": 0.0,
+    "approx_95_elo": [
+      -134.4927679162339,
+      134.4927679162339
+    ],
+    "errors": []
+  },
+  "sf2400.summary.json": {
+    "n": 48,
+    "wins": 10,
+    "draws": 14,
+    "losses": 24,
+    "score": 0.3541666666666667,
+    "elo_diff": -104.36510898239948,
+    "approx_95_elo": [
+      -196.32363930320733,
+      -24.921704516612923
+    ],
+    "errors": []
+  },
+  "history-qfix.summary.json": {
+    "n": 64,
+    "wins": 19,
+    "draws": 23,
+    "losses": 22,
+    "score": 0.4765625,
+    "elo_diff": -16.297987076023766,
+    "approx_95_elo": [
+      -79.48030016631462,
+      45.81387133839607
+    ],
+    "errors": []
+  },
+  "cache-qfix.summary.json": {
+    "n": 32,
+    "wins": 12,
+    "draws": 13,
+    "losses": 7,
+    "score": 0.578125,
+    "elo_diff": 54.735183963203085,
+    "approx_95_elo": [
+      -5.652515831814054,
+      118.63053040082347
+    ],
+    "errors": []
+  },
+  "qfix-see.summary.json": {
+    "n": 32,
+    "wins": 14,
+    "draws": 11,
+    "losses": 7,
+    "score": 0.609375,
+    "elo_diff": 77.24983934178465,
+    "approx_95_elo": [
+      -11.74439591732059,
+      177.79240145898316
+    ],
+    "errors": []
+  },
+  "holdout-v1.summary.json": {
+    "n": 48,
+    "wins": 36,
+    "draws": 10,
+    "losses": 2,
+    "score": 0.8541666666666666,
+    "elo_diff": 307.07432668219144,
+    "approx_95_elo": [
+      216.44303415996467,
+      454.0404100976801
+    ],
+    "errors": []
+  },
+  "see-v1.summary.json": {
+    "n": 24,
+    "wins": 16,
+    "draws": 4,
+    "losses": 4,
+    "score": 0.75,
+    "elo_diff": 190.84850188786498,
+    "approx_95_elo": [
+      72.07349488755709,
+      377.3789726133459
+    ],
+    "errors": []
+  },
+  "validation-v1.summary.json": {
+    "n": 128,
+    "wins": 91,
+    "draws": 25,
+    "losses": 12,
+    "score": 0.80859375,
+    "elo_diff": 250.30970617136163,
+    "approx_95_elo": [
+      194.86495148314177,
+      319.5361727143351
+    ],
+    "errors": []
+  }
+}
