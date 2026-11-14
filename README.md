@@ -27,3 +27,17 @@ Extras: `go perft N` after a `position` command.
 - `tests/perft.sh`: startpos perft 5 (4865609) and 6 (119060324), plus five standard test positions.
 - `tests/match.py`: plays games against a reference UCI engine with python-chess.
 - `tests/tactics.py`: mate and only-move tactic check against a reference engine.
+
+## Version 1.1
+
+The strength pass fixes exchange evaluation and tactical search, adds an evaluation
+cache, and improves time use. In a 128-game independent paired-opening test at
+35 ms/move, it scored +91 =25 -12 against 1.0 (about +250 relative Elo).
+Fresh Stockfish 14.1 limited-strength checks suggest roughly 2250 on that test
+scale, not an official rating. See [STRENGTH.md](STRENGTH.md) for methods,
+uncertainty, reproduction commands and the distinction between the relative gain
+and the noisy old absolute estimate. Full game records are in `strength-results.zip`.
+
+`make test` also runs exchange/search regressions. With `python-chess` installed,
+run `python3 tests/uci_smoke.py` for protocol checks and
+`python3 tests/paired_match.py --help` for paired-opening matches.
