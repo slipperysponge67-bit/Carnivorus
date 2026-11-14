@@ -21,6 +21,12 @@ none.
 - Lazy SMP: `Threads` UCI option (1-32, default 1), shared lockless transposition
   table (key^data packing), per-thread search state. A tuning-dump race that
   poisoned evaluation under threads was found and fixed during testing.
+- Singular extensions (added after the first 1.2 validation): when the TT move
+  at a non-root node with depth >= 8 has a sufficiently deep exact/lower-bound
+  entry, the position is searched with that move excluded at reduced depth; if
+  all alternatives fail below tt_score - 2*depth, the TT move is extended one
+  ply. Screened at +40 Elo [+3, +77] over 238 games at 35 ms/move against the
+  pre-SE build; neutral at fixed nodes, as expected.
 - Version string is 1.2.
 
 Discarded after 224-game screens (nodes=8000) against the tuned build: earlier
@@ -45,11 +51,14 @@ time-control matches are not capped this way.
 
 | Match | Games | 1.2 W/D/L | 1.2 score | Implied Elo difference |
 | --- | ---: | --- | ---: | ---: |
-| nodes=8000 per move | 256 | 125/55/76 | 59.57% | +67 |
-| 35 ms/move | 128 | 56/39/33 | 58.98% | +63 |
+| nodes=8000 per move | 256 | 126/61/69 | 61.13% | +79 |
+| 35 ms/move | 126 | 45/47/34 | 54.37% | +30 |
 
 Approximate 95% intervals over opening-pair scores (descriptive, not SPRT):
-+29 to +108 and +19 to +110 Elo. The direction of improvement is consistent
++41 to +119 and -16 to +78 Elo. These final matches include singular
+extensions; the pre-SE build measured +67 [+29, +108] and +63 [+19, +110]
+on the same setup, and the SE-versus-pre-SE difference itself screened at
++40 [+3, +77], so the build is at least as strong as the pre-SE numbers. The direction of improvement is consistent
 across both conditions; the size can change with opponents, openings, hardware
 and time control.
 
@@ -79,5 +88,6 @@ one intermediate build scored 73% against the 2200 setting while scoring worse
 than 1.1 at the 2300 setting. The direct 1.2-versus-1.1 matches above are the
 reliable evidence of improvement; this calibration only anchors the rough level.
 
-Final validation PGNs: `MATCHES-1.2-nodes.pgn`, `MATCHES-1.2-tc.pgn`.
+Final validation PGNs: `MATCHES-1.2-nodes.pgn`, `MATCHES-1.2-tc.pgn`
+(final build, with singular extensions).
 Summaries are in `MATCH_RESULTS.json`; per-game records are under `work/`.
