@@ -20,7 +20,9 @@ int main(void) {
             fprintf(stderr, "bad fen: %s\n", fen);
             continue;
         }
+        edump_wanted = 1;
         eval_uncached(&p);
+        edump_wanted = 0;
         printf("%s\t%d\t%d\t%d\t%d\t%d\t%d", line, edump.phase, edump.ks, edump.draw, edump.tempo,
                edump.side, edump.nf);
         for (int i = 0; i < edump.nf; i++) printf(" %d:%d", edump.fi[i], edump.fv[i]);

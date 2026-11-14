@@ -1,5 +1,5 @@
 CC ?= gcc
-CFLAGS ?= -O2 -Wall -Wextra -std=gnu11
+CFLAGS ?= -O2 -Wall -Wextra -std=gnu11 -pthread
 LDLIBS = -lm
 
 carnivorus: carnivorus.c

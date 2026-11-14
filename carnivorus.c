@@ -16,6 +16,7 @@
 #include <ctype.h>
 #include <math.h>
 #include <poll.h>
+#include <pthread.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -607,14 +608,22 @@ static inline int kdist(int a, int b) {
     return dr > df ? dr : df;
 }
 
-/* dump of the last eval_uncached call, for the tuning pipeline */
+/* dump of the last eval_uncached call, filled only when the feat command
+ * asks (single-threaded context); search-time eval uses stack arrays. */
 static struct {
     int phase, ks, draw, tempo, side, nf;
     int fi[256];
     int fv[256];
 } edump;
+static int edump_wanted = 0;
 
 static int eval_uncached(const Pos *p) {
+    int lfi[256];
+    int lfv[256];
+    int *restrict fip = edump_wanted ? edump.fi : lfi;
+    int *restrict fvp = edump_wanted ? edump.fv : lfv;
+#define edump_fi fip
+#define edump_fv fvp
     int nf = 0;
     int phase = 0;
     int npm[2] = {0, 0};
@@ -640,37 +649,37 @@ static int eval_uncached(const Pos *p) {
             while (b) {
                 int s = pop_lsb(&b);
                 int ps = c == WHITE ? s : s ^ 56;
-                edump.fi[nf] = FPST(t, ps);
-                edump.fv[nf++] = sgn;
+                edump_fi[nf] = FPST(t, ps);
+                edump_fv[nf++] = sgn;
                 if (t == PAWN) {
                     int f = s & 7, rr = c == WHITE ? s >> 3 : 7 - (s >> 3);
                     int supported = (pa[c] & BIT(s)) != 0;
                     if (!(pawns[c] & adj_files[f])) {
-                        edump.fi[nf] = F_ISO;
-                        edump.fv[nf++] = sgn;
+                        edump_fi[nf] = F_ISO;
+                        edump_fv[nf++] = sgn;
                     }
                     if (pawns[c] & front_span[c][s]) {
-                        edump.fi[nf] = F_DBL;
-                        edump.fv[nf++] = sgn;
+                        edump_fi[nf] = F_DBL;
+                        edump_fv[nf++] = sgn;
                     }
                     if (supported) {
-                        edump.fi[nf] = F_SUP(rr);
-                        edump.fv[nf++] = sgn;
+                        edump_fi[nf] = F_SUP(rr);
+                        edump_fv[nf++] = sgn;
                     }
                     if (!(passed_mask[c][s] & pawns[them]) && !(pawns[c] & front_span[c][s])) {
                         int ahead = c == WHITE ? s + 8 : s - 8;
-                        edump.fi[nf] = F_PASS(rr);
-                        edump.fv[nf++] = sgn;
+                        edump_fi[nf] = F_PASS(rr);
+                        edump_fv[nf++] = sgn;
                         if (p->all & BIT(ahead)) {
-                            edump.fi[nf] = F_PASSBLK(rr);
-                            edump.fv[nf++] = sgn;
+                            edump_fi[nf] = F_PASSBLK(rr);
+                            edump_fv[nf++] = sgn;
                         }
                         if (supported) {
-                            edump.fi[nf] = F_PASSSUP;
-                            edump.fv[nf++] = sgn * rr;
+                            edump_fi[nf] = F_PASSSUP;
+                            edump_fv[nf++] = sgn * rr;
                         }
-                        edump.fi[nf] = F_PASSKING;
-                        edump.fv[nf++] = sgn * rr * (kdist(eksq, ahead) - kdist(ksq, ahead));
+                        edump_fi[nf] = F_PASSKING;
+                        edump_fv[nf++] = sgn * rr * (kdist(eksq, ahead) - kdist(ksq, ahead));
                     }
                     continue;
                 }
@@ -692,38 +701,38 @@ static int eval_uncached(const Pos *p) {
                 switch (t) {
                 case KNIGHT:
                     if (mob > 15) mob = 15;
-                    edump.fi[nf] = FMOB_N(mob);
+                    edump_fi[nf] = FMOB_N(mob);
                     break;
                 case BISHOP:
                     if (mob > 15) mob = 15;
-                    edump.fi[nf] = FMOB_B(mob);
+                    edump_fi[nf] = FMOB_B(mob);
                     break;
                 case ROOK:
                     if (mob > 15) mob = 15;
-                    edump.fi[nf] = FMOB_R(mob);
+                    edump_fi[nf] = FMOB_R(mob);
                     break;
                 default:
                     if (mob > 27) mob = 27;
-                    edump.fi[nf] = FMOB_Q(mob);
+                    edump_fi[nf] = FMOB_Q(mob);
                     break;
                 }
-                edump.fv[nf++] = sgn;
+                edump_fv[nf++] = sgn;
                 if (t == ROOK) {
                     int f = s & 7;
                     if (!(pawns[c] & file_mask[f])) {
-                        edump.fi[nf] = (pawns[them] & file_mask[f]) ? F_ROOKSEMI : F_ROOKOPEN;
-                        edump.fv[nf++] = sgn;
+                        edump_fi[nf] = (pawns[them] & file_mask[f]) ? F_ROOKSEMI : F_ROOKOPEN;
+                        edump_fv[nf++] = sgn;
                     }
                     if ((c == WHITE ? s >> 3 : 7 - (s >> 3)) == 6) {
-                        edump.fi[nf] = F_ROOK7;
-                        edump.fv[nf++] = sgn;
+                        edump_fi[nf] = F_ROOK7;
+                        edump_fv[nf++] = sgn;
                     }
                 }
             }
         }
         if (popc(p->bb[c * 6 + BISHOP]) >= 2) {
-            edump.fi[nf] = F_BPAIR;
-            edump.fv[nf++] = sgn;
+            edump_fi[nf] = F_BPAIR;
+            edump_fv[nf++] = sgn;
         }
         /* pawn shield and open files near the king */
         {
@@ -738,23 +747,25 @@ static int eval_uncached(const Pos *p) {
                         if (rr > kr && rr - kr < best) best = rr - kr;
                     }
                     if (best != 1) {
-                        edump.fi[nf] = best == 2 ? F_SH2 : (best < 9 ? F_SH3 : F_SHNONE);
-                        edump.fv[nf++] = sgn;
+                        edump_fi[nf] = best == 2 ? F_SH2 : (best < 9 ? F_SH3 : F_SHNONE);
+                        edump_fv[nf++] = sgn;
                     }
                     if (!(pawns[them] & file_mask[f]) && !(pawns[c] & file_mask[f])) {
-                        edump.fi[nf] = F_SHOPEN;
-                        edump.fv[nf++] = sgn;
+                        edump_fi[nf] = F_SHOPEN;
+                        edump_fv[nf++] = sgn;
                     }
                 }
             }
         }
     }
-    edump.nf = nf;
-    edump.phase = phase > 24 ? 24 : phase;
+    if (edump_wanted) {
+        edump.nf = nf;
+        edump.phase = phase > 24 ? 24 : phase;
+    }
     int mg = 0, eg = 0;
     for (int i = 0; i < nf; i++) {
-        mg += w_mg[edump.fi[i]] * edump.fv[i];
-        eg += w_eg[edump.fi[i]] * edump.fv[i];
+        mg += w_mg[edump_fi[i]] * edump_fv[i];
+        eg += w_eg[edump_fi[i]] * edump_fv[i];
     }
     /* king safety: attackers of side s hurt the opposing king (fixed) */
     int ks = 0;
@@ -766,35 +777,32 @@ static int eval_uncached(const Pos *p) {
             ks += s == WHITE ? pen : -pen;
         }
     }
-    edump.ks = ks;
+    if (edump_wanted) edump.ks = ks;
     mg += ks;
-    int score = (mg * edump.phase + eg * (24 - edump.phase)) / 24;
+    int ph = phase > 24 ? 24 : phase;
+    int score = (mg * ph + eg * (24 - ph)) / 24;
     /* drawish endings: the stronger side has no pawns and little extra material */
-    edump.draw = 1;
+    int draw = 1;
     if (score != 0) {
         int strong = score > 0 ? WHITE : BLACK;
         if (!pawns[strong] && npm[strong] - npm[strong ^ 1] < 400) {
             score /= 4;
-            edump.draw = 4;
+            draw = 4;
         }
     }
-    edump.tempo = p->side == WHITE ? 10 : -10;
-    edump.side = p->side;
-    score += edump.tempo;
+    int tempo = p->side == WHITE ? 10 : -10;
+    if (edump_wanted) {
+        edump.draw = draw;
+        edump.tempo = tempo;
+        edump.side = p->side;
+    }
+    score += tempo;
+#undef edump_fi
+#undef edump_fv
     return p->side == WHITE ? score : -score;
 }
-/* Full-position evaluation cache, separate from the search bounds. */
+/* Per-thread full-position evaluation cache, separate from search bounds. */
 typedef struct { U64 key; int score; int valid; } EvalEntry;
-static EvalEntry eval_cache[65536];
-static int eval(const Pos *p) {
-    EvalEntry *e = &eval_cache[p->key & 65535];
-    if (e->valid && e->key == p->key) return e->score;
-    int value = eval_uncached(p);
-    e->key = p->key;
-    e->score = value;
-    e->valid = 1;
-    return value;
-}
 
 static int insufficient(const Pos *p) {
     if (p->bb[PAWN] | p->bb[6 + PAWN] | p->bb[ROOK] | p->bb[6 + ROOK] | p->bb[QUEEN] | p->bb[6 + QUEEN])
@@ -858,19 +866,16 @@ static int see(const Pos *p, Move m) {
     return gain[0];
 }
 
-/* ---------- transposition table ---------- */
+/* ---------- transposition table ----------
+ * Shared, lockless: the stored key is XORed with the packed data, so a
+ * torn read across the two words almost always fails the key check and
+ * is treated as a miss. Single-threaded behaviour is unchanged. */
 typedef struct {
-    U64 key;
-    int32_t move;
-    int16_t score;
-    int8_t depth;
-    uint8_t flag; /* 0 none, 1 exact, 2 lower, 3 upper */
-    uint8_t age;
-    uint8_t pad[3];
+    U64 key, data;
 } TTE;
 static TTE *tt = NULL;
 static U64 tt_mask = 0;
-static uint8_t tt_age = 0;
+static uint8_t tt_age = 0; /* 6-bit generation */
 
 static void tt_resize(size_t mb) {
     size_t n = 1;
@@ -890,6 +895,25 @@ static inline int score_from_tt(int s, int ply) {
     return s >= MATE_BOUND ? s - ply : (s <= -MATE_BOUND ? s + ply : s);
 }
 
+/* data packs: move 32 | score 16 | depth 7 | flag 2 | age 6 */
+static inline int tt_read(const TTE *e, U64 key, Move *m, int *score, int *depth, int *flag,
+                          int *age) {
+    U64 d = e->data;
+    if ((e->key ^ d) != key) return 0;
+    *m = (Move)(int32_t)(d & 0xFFFFFFFFu);
+    *score = (int16_t)((d >> 32) & 0xFFFF);
+    *depth = (int)((d >> 48) & 0x7F);
+    *flag = (int)((d >> 55) & 3);
+    *age = (int)((d >> 57) & 63);
+    return *flag != 0;
+}
+static inline void tt_write(TTE *e, U64 key, Move m, int score, int depth, int flag, int age) {
+    U64 d = (U64)(uint32_t)m | ((U64)(uint16_t)score << 32) | ((U64)(depth & 0x7F) << 48) |
+            ((U64)(flag & 3) << 55) | ((U64)(age & 63) << 57);
+    e->key = key ^ d;
+    e->data = d;
+}
+
 /* ---------- search ---------- */
 typedef struct {
     long long start, soft, hard;
@@ -899,21 +923,45 @@ typedef struct {
 } Limits;
 
 static Limits lim;
-static long long nodes;
-static int stopped, quit_flag;
-static int seldepth;
+static volatile int stopped;
+static int quit_flag;
+
+#define MAXTHREADS 32
+
+typedef struct Thread {
+    int idx;
+    volatile long long nodes;
+    int seldepth;
+    Pos root;
+    Move first;
+    int nlegal;
+    Move final_best;
+    int root_depth;
+    Move root_best;
+    int hlen;
+    U64 hist[4096 + MAXPLY];
+    Move killers[MAXPLY][2];
+    int history[2][64][64];
+    Move countermove[64][64];
+    Move stack_move[MAXPLY + 2];
+    int eval_stack[MAXPLY + 2];
+    Move pv[MAXPLY][MAXPLY];
+    int pv_len[MAXPLY];
+    EvalEntry *eval_cache;
+    pthread_t tid;
+} Thread;
+
+static Thread g_threads[MAXTHREADS];
+static int g_nthreads = 1;
 static U64 g_hist[4096 + MAXPLY];
 static int g_hlen;
-static Move killers[MAXPLY][2];
-static int history[2][64][64];
-static Move countermove[64][64];
-static Move stack_move[MAXPLY + 2];
-static int eval_stack[MAXPLY + 2];
-static Move pv[MAXPLY][MAXPLY];
-static int pv_len[MAXPLY];
-static Move root_best;
 static int lmr_tab[64][64];
-static int root_depth;
+
+static long long total_nodes(void) {
+    long long n = 0;
+    for (int i = 0; i < g_nthreads; i++) n += g_threads[i].nodes;
+    return n;
+}
 
 static char ibuf[1 << 16];
 static int ilen = 0;
@@ -962,20 +1010,25 @@ static void check_input(void) {
     }
 }
 
+/* only thread 0 touches the clock, the node limit and stdin */
 static void check_time(void) {
-    if (root_depth > 1 && !lim.infinite) {
+    if (g_threads[0].root_depth > 1 && !lim.infinite) {
         if (lim.hard && now_ms() - lim.start >= lim.hard) stopped = 1;
-        if (lim.nodes && nodes >= lim.nodes) stopped = 1;
+        if (lim.nodes && total_nodes() >= lim.nodes) stopped = 1;
     }
     check_input();
 }
 
-static inline int is_repetition(const Pos *p, int ply) {
-    int idx = g_hlen + ply;
+static inline void poll_nodes(Thread *t) {
+    if (t->idx == 0) check_time();
+}
+
+static inline int is_repetition(const Thread *t, const Pos *p, int ply) {
+    int idx = t->hlen + ply;
     int lo = idx - p->halfmove;
     if (lo < 0) lo = 0;
     for (int i = idx - 2; i >= lo; i -= 2)
-        if (g_hist[i] == p->key) return 1;
+        if (t->hist[i] == p->key) return 1;
     return 0;
 }
 
@@ -983,25 +1036,35 @@ static inline int has_nonpawn(const Pos *p, int c) {
     return (p->bb[c * 6 + KNIGHT] | p->bb[c * 6 + BISHOP] | p->bb[c * 6 + ROOK] | p->bb[c * 6 + QUEEN]) != 0;
 }
 
-static int qsearch(const Pos *p, int alpha, int beta, int ply, int qd) {
-    if ((++nodes & 2047) == 0) check_time();
+static int eval(Thread *t, const Pos *p) {
+    EvalEntry *e = &t->eval_cache[p->key & 65535];
+    if (e->valid && e->key == p->key) return e->score;
+    int value = eval_uncached(p);
+    e->key = p->key;
+    e->score = value;
+    e->valid = 1;
+    return value;
+}
+
+static int qsearch(Thread *t, const Pos *p, int alpha, int beta, int ply, int qd) {
+    if ((++t->nodes & 2047) == 0) poll_nodes(t);
     if (stopped) return 0;
-    g_hist[g_hlen + ply] = p->key;
-    if (p->halfmove >= 100 || is_repetition(p, ply) || insufficient(p)) return 0;
-    if (ply > seldepth) seldepth = ply;
-    if (ply >= MAXPLY - 1) return eval(p);
+    t->hist[t->hlen + ply] = p->key;
+    if (p->halfmove >= 100 || is_repetition(t, p, ply) || insufficient(p)) return 0;
+    if (ply > t->seldepth) t->seldepth = ply;
+    if (ply >= MAXPLY - 1) return eval(t, p);
     int incheck = in_check(p);
     int pvnode = beta - alpha > 1;
     TTE *e = &tt[p->key & tt_mask];
     Move ttmove = 0;
-    if (e->key == p->key && e->flag) {
-        ttmove = e->move;
-        int ts = score_from_tt(e->score, ply);
-        if (!pvnode && ((e->flag == 1) || (e->flag == 2 && ts >= beta) || (e->flag == 3 && ts <= alpha))) return ts;
+    int tts, ttd, ttf, tta;
+    if (tt_read(e, p->key, &ttmove, &tts, &ttd, &ttf, &tta)) {
+        int ts = score_from_tt(tts, ply);
+        if (!pvnode && ((ttf == 1) || (ttf == 2 && ts >= beta) || (ttf == 3 && ts <= alpha))) return ts;
     }
     int stand = -INF, best;
     if (!incheck) {
-        stand = eval(p);
+        stand = eval(t, p);
         if (stand >= beta) return stand;
         if (stand > alpha) alpha = stand;
         best = stand;
@@ -1021,7 +1084,7 @@ static int qsearch(const Pos *p, int alpha, int beta, int ply, int qd) {
         } else if (MPROMO(m))
             s = 900000 + MPROMO(m);
         else
-            s = history[p->side][MFROM(m)][MTO(m)];
+            s = t->history[p->side][MFROM(m)][MTO(m)];
         sc[i] = s;
     }
     int legal = 0, flag = 3, oa = alpha;
@@ -1043,7 +1106,7 @@ static int qsearch(const Pos *p, int alpha, int beta, int ply, int qd) {
         Pos np = *p;
         if (!make_move(&np, m)) continue;
         legal++;
-        int score = -qsearch(&np, -beta, -alpha, ply + 1, qd + 1);
+        int score = -qsearch(t, &np, -beta, -alpha, ply + 1, qd + 1);
         if (stopped) return 0;
         if (score > best) {
             best = score;
@@ -1060,31 +1123,29 @@ static int qsearch(const Pos *p, int alpha, int beta, int ply, int qd) {
     }
     if (incheck && legal == 0) return -MATE + ply;
     (void)oa;
-    if (!stopped && !(e->key == p->key && e->depth > 0)) {
-        e = &tt[p->key & tt_mask];
-        e->key = p->key;
-        e->move = bestmove;
-        e->score = (int16_t)score_to_tt(best, ply);
-        e->depth = 0;
-        e->flag = (uint8_t)flag;
-        e->age = tt_age;
+    if (!stopped) {
+        Move dm;
+        int ds, dd, df, da;
+        int hit = tt_read(e, p->key, &dm, &ds, &dd, &df, &da);
+        if (!(hit && dd > 0))
+            tt_write(e, p->key, bestmove, score_to_tt(best, ply), 0, flag, tt_age);
     }
     return best;
 }
 
-static int search(const Pos *p, int depth, int alpha, int beta, int ply, int donull) {
+static int search(Thread *t, const Pos *p, int depth, int alpha, int beta, int ply, int donull) {
     int pvnode = beta - alpha > 1;
-    pv_len[ply] = ply;
-    g_hist[g_hlen + ply] = p->key;
+    t->pv_len[ply] = ply;
+    t->hist[t->hlen + ply] = p->key;
     if (stopped) return 0;
-    if ((++nodes & 2047) == 0) check_time();
+    if ((++t->nodes & 2047) == 0) poll_nodes(t);
     if (stopped) return 0;
-    if (ply > seldepth) seldepth = ply;
+    if (ply > t->seldepth) t->seldepth = ply;
     int us = p->side;
     if (ply > 0) {
-        if (p->halfmove >= 100 || is_repetition(p, ply) || insufficient(p)) return 0;
+        if (p->halfmove >= 100 || is_repetition(t, p, ply) || insufficient(p)) return 0;
     }
-    if (ply >= MAXPLY - 1) return eval(p);
+    if (ply >= MAXPLY - 1) return eval(t, p);
     int incheck = in_check(p);
     if (ply > 0) {
         if (alpha < -MATE + ply) alpha = -MATE + ply;
@@ -1092,29 +1153,29 @@ static int search(const Pos *p, int depth, int alpha, int beta, int ply, int don
         if (alpha >= beta) return alpha;
     }
     if (incheck) depth++;
-    if (depth <= 0) return qsearch(p, alpha, beta, ply, 0);
+    if (depth <= 0) return qsearch(t, p, alpha, beta, ply, 0);
 
     TTE *e = &tt[p->key & tt_mask];
     Move ttmove = 0;
-    if (e->key == p->key && e->flag) {
-        ttmove = e->move;
-        int ts = score_from_tt(e->score, ply);
-        if (!pvnode && ply > 0 && e->depth >= depth && p->halfmove < 90 &&
-            ((e->flag == 1) || (e->flag == 2 && ts >= beta) || (e->flag == 3 && ts <= alpha)))
+    int tts, ttd, ttf, tta;
+    if (tt_read(e, p->key, &ttmove, &tts, &ttd, &ttf, &tta)) {
+        int ts = score_from_tt(tts, ply);
+        if (!pvnode && ply > 0 && ttd >= depth && p->halfmove < 90 &&
+            ((ttf == 1) || (ttf == 2 && ts >= beta) || (ttf == 3 && ts <= alpha)))
             return ts;
     }
-    int se = incheck ? NOEVAL : eval(p);
-    eval_stack[ply] = se;
-    int improving = !incheck && ply >= 2 && eval_stack[ply - 2] != NOEVAL && se > eval_stack[ply - 2];
+    int se = incheck ? NOEVAL : eval(t, p);
+    t->eval_stack[ply] = se;
+    int improving = !incheck && ply >= 2 && t->eval_stack[ply - 2] != NOEVAL && se > t->eval_stack[ply - 2];
 
     if (!pvnode && !incheck && abs(beta) < MATE_BOUND) {
         if (depth <= 6 && se - 85 * depth + (improving ? 40 : 0) >= beta) return se;
         if (donull && depth >= 3 && se >= beta && has_nonpawn(p, us)) {
             Pos np = *p;
             make_null(&np);
-            stack_move[ply] = 0;
+            t->stack_move[ply] = 0;
             int R = 3 + depth / 4 + ((se - beta) / 200 > 3 ? 3 : (se - beta) / 200);
-            int score = -search(&np, depth - 1 - R, -beta, -beta + 1, ply + 1, 0);
+            int score = -search(t, &np, depth - 1 - R, -beta, -beta + 1, ply + 1, 0);
             if (stopped) return 0;
             if (score >= beta) return score >= MATE_BOUND ? beta : score;
         }
@@ -1124,8 +1185,8 @@ static int search(const Pos *p, int depth, int alpha, int beta, int ply, int don
     Move mv[MAXMOVES];
     int sc[MAXMOVES];
     int n = gen_moves(p, mv, 0);
-    Move prev = ply > 0 ? stack_move[ply - 1] : 0;
-    Move cm = prev ? countermove[MFROM(prev)][MTO(prev)] : 0;
+    Move prev = ply > 0 ? t->stack_move[ply - 1] : 0;
+    Move cm = prev ? t->countermove[MFROM(prev)][MTO(prev)] : 0;
     for (int i = 0; i < n; i++) {
         Move m = mv[i];
         int s;
@@ -1138,10 +1199,10 @@ static int search(const Pos *p, int depth, int alpha, int beta, int ply, int don
             if (MPROMO(m) == QUEEN) s += 500000;
         } else if (MPROMO(m)) {
             s = MPROMO(m) == QUEEN ? 9000000 : -2000000;
-        } else if (m == killers[ply][0]) s = 8000000;
-        else if (m == killers[ply][1]) s = 7000000;
+        } else if (m == t->killers[ply][0]) s = 8000000;
+        else if (m == t->killers[ply][1]) s = 7000000;
         else if (m == cm) s = 6000000;
-        else s = history[us][MFROM(m)][MTO(m)];
+        else s = t->history[us][MFROM(m)][MTO(m)];
         sc[i] = s;
     }
     int legal = 0, best = -INF, oa = alpha;
@@ -1167,10 +1228,10 @@ static int search(const Pos *p, int depth, int alpha, int beta, int ply, int don
         }
         legal++;
         int newdepth = depth - 1;
-        stack_move[ply] = m;
+        t->stack_move[ply] = m;
         int score;
         if (legal == 1) {
-            score = -search(&np, newdepth, -beta, -alpha, ply + 1, 1);
+            score = -search(t, &np, newdepth, -beta, -alpha, ply + 1, 1);
         } else {
             int r = 0;
             if (depth >= 3 && legal >= (pvnode ? 4 : 3) && quiet) {
@@ -1179,15 +1240,15 @@ static int search(const Pos *p, int depth, int alpha, int beta, int ply, int don
                 if (!improving) r++;
                 if (incheck) r--;
                 if (gives_check) r--;
-                if (m == killers[ply][0] || m == killers[ply][1]) r--;
-                r -= history[us][MFROM(m)][MTO(m)] / 5000;
+                if (m == t->killers[ply][0] || m == t->killers[ply][1]) r--;
+                r -= t->history[us][MFROM(m)][MTO(m)] / 5000;
                 if (r < 0) r = 0;
                 if (r > newdepth - 1) r = newdepth - 1;
                 if (r < 0) r = 0;
             }
-            score = -search(&np, newdepth - r, -alpha - 1, -alpha, ply + 1, 1);
-            if (score > alpha && r > 0) score = -search(&np, newdepth, -alpha - 1, -alpha, ply + 1, 1);
-            if (score > alpha && score < beta) score = -search(&np, newdepth, -beta, -alpha, ply + 1, 1);
+            score = -search(t, &np, newdepth - r, -alpha - 1, -alpha, ply + 1, 1);
+            if (score > alpha && r > 0) score = -search(t, &np, newdepth, -alpha - 1, -alpha, ply + 1, 1);
+            if (score > alpha && score < beta) score = -search(t, &np, newdepth, -beta, -alpha, ply + 1, 1);
         }
         if (stopped) return 0;
         if (quiet && nq < 64) quiets[nq++] = m;
@@ -1196,23 +1257,23 @@ static int search(const Pos *p, int depth, int alpha, int beta, int ply, int don
             bestmove = m;
             if (score > alpha) {
                 alpha = score;
-                pv[ply][ply] = m;
-                for (int k = ply + 1; k < pv_len[ply + 1]; k++) pv[ply][k] = pv[ply + 1][k];
-                pv_len[ply] = pv_len[ply + 1] > ply + 1 ? pv_len[ply + 1] : ply + 1;
-                if (ply == 0) root_best = m;
+                t->pv[ply][ply] = m;
+                for (int k = ply + 1; k < t->pv_len[ply + 1]; k++) t->pv[ply][k] = t->pv[ply + 1][k];
+                t->pv_len[ply] = t->pv_len[ply + 1] > ply + 1 ? t->pv_len[ply + 1] : ply + 1;
+                if (ply == 0) t->root_best = m;
                 if (score >= beta) {
                     if (quiet) {
-                        if (killers[ply][0] != m) {
-                            killers[ply][1] = killers[ply][0];
-                            killers[ply][0] = m;
+                        if (t->killers[ply][0] != m) {
+                            t->killers[ply][1] = t->killers[ply][0];
+                            t->killers[ply][0] = m;
                         }
                         int bonus = depth * depth > 400 ? 400 : depth * depth;
                         for (int k = 0; k < nq; k++) {
-                            int *h = &history[us][MFROM(quiets[k])][MTO(quiets[k])];
+                            int *h = &t->history[us][MFROM(quiets[k])][MTO(quiets[k])];
                             int b = quiets[k] == m ? bonus : -bonus;
                             *h += b - *h * abs(b) / 8000;
                         }
-                        if (prev) countermove[MFROM(prev)][MTO(prev)] = m;
+                        if (prev) t->countermove[MFROM(prev)][MTO(prev)] = m;
                     }
                     break;
                 }
@@ -1220,35 +1281,103 @@ static int search(const Pos *p, int depth, int alpha, int beta, int ply, int don
         }
     }
     if (legal == 0) return incheck ? -MATE + ply : 0;
-    e = &tt[p->key & tt_mask];
-    if (!(e->key == p->key && e->age == tt_age && e->depth > depth + 3)) {
-        e->key = p->key;
-        e->move = bestmove;
-        e->score = (int16_t)score_to_tt(best, ply);
-        e->depth = (int8_t)depth;
-        e->flag = best >= beta ? 2 : (best > oa ? 1 : 3);
-        e->age = tt_age;
+    {
+        Move dm;
+        int ds, dd, df, da;
+        int hit = tt_read(e, p->key, &dm, &ds, &dd, &df, &da);
+        if (!(hit && da == tt_age && dd > depth + 3))
+            tt_write(e, p->key, bestmove, score_to_tt(best, ply), depth,
+                     best >= beta ? 2 : (best > oa ? 1 : 3), tt_age);
     }
     return best;
 }
 
-static void print_info(int depth, int score, const Pos *root) {
+static void print_info(Thread *t, int depth, int score) {
     long long el = now_ms() - lim.start;
     if (el < 1) el = 1;
-    printf("info depth %d seldepth %d score ", depth, seldepth);
+    long long nn = total_nodes();
+    printf("info depth %d seldepth %d score ", depth, t->seldepth);
     if (score >= MATE_BOUND) printf("mate %d", (MATE - score + 1) / 2);
     else if (score <= -MATE_BOUND) printf("mate %d", -(MATE + score + 1) / 2);
     else printf("cp %d", score);
-    printf(" nodes %lld nps %lld time %lld pv", nodes, nodes * 1000 / el, el);
-    Pos tmp = *root;
-    for (int i = 0; i < pv_len[0]; i++) {
+    printf(" nodes %lld nps %lld time %lld pv", nn, nn * 1000 / el, el);
+    Pos tmp = t->root;
+    for (int i = 0; i < t->pv_len[0]; i++) {
         char s[8];
-        move_str(pv[0][i], s);
+        move_str(t->pv[0][i], s);
         printf(" %s", s);
-        if (!make_move(&tmp, pv[0][i])) break;
+        if (!make_move(&tmp, t->pv[0][i])) break;
     }
     printf("\n");
     fflush(stdout);
+}
+
+static void iterative(Thread *t, int is_main) {
+    if (!t->nlegal) return;
+    t->root_best = t->first;
+    int prev = 0, maxd = lim.depth ? lim.depth : MAXPLY - 2;
+    Move best = t->first, previous_best = 0;
+    int stable = 0, previous_score = 0;
+    for (int d = 1; d <= maxd; d++) {
+        t->root_depth = d;
+        int alpha = -INF, beta = INF, delta = 18, score;
+        if (is_main && d >= 5) {
+            alpha = prev - delta;
+            beta = prev + delta;
+        }
+        for (;;) {
+            score = search(t, &t->root, d, alpha, beta, 0, 1);
+            if (stopped) break;
+            if (!is_main) break; /* helpers search full-window */
+            if (score <= alpha) {
+                beta = (alpha + beta) / 2;
+                alpha = score - delta > -INF ? score - delta : -INF;
+            } else if (score >= beta) {
+                beta = score + delta < INF ? score + delta : INF;
+            } else
+                break;
+            delta += delta / 2 + 5;
+            if (delta > 800) {
+                alpha = -INF;
+                beta = INF;
+            }
+        }
+        if (stopped) {
+            best = t->root_best;
+            break;
+        }
+        best = t->root_best;
+        stable = best == previous_best ? stable + 1 : 0;
+        int score_drop = previous_score - score;
+        previous_best = best;
+        previous_score = score;
+        prev = score;
+        if (is_main) {
+            print_info(t, d, score);
+            if (!lim.infinite) {
+                long long el = now_ms() - lim.start;
+                /* Fixed movetime is a budget, not a fraction of a clock target.
+                 * With a game clock, spend more on unstable or worsening moves. */
+                long long target = lim.soft;
+                if (!lim.fixed_time) {
+                    target = target * (stable >= 4 ? 75 : stable >= 2 ? 90 : 125) / 100;
+                    if (score_drop > 35) target = target * 3 / 2;
+                    if (lim.hard && target > lim.hard) target = lim.hard;
+                }
+                if (target && el >= target) break;
+                if (t->nlegal == 1 && d >= 4 && lim.soft) break;
+                if (abs(score) >= MATE_BOUND && d >= 8) break;
+            }
+        }
+        if (stopped) break;
+    }
+    if (is_main) t->final_best = best;
+}
+
+static void *thread_main(void *arg) {
+    Thread *t = arg;
+    iterative(t, 0);
+    return NULL;
 }
 
 static void think(const Pos *root) {
@@ -1268,71 +1397,38 @@ static void think(const Pos *root) {
         return;
     }
     stopped = 0;
-    nodes = 0;
-    seldepth = 0;
-    root_best = first;
-    tt_age++;
-    memset(killers, 0, sizeof killers);
-    memset(countermove, 0, sizeof countermove);
-    memset(eval_stack, 0, sizeof eval_stack);
-    for (int c = 0; c < 2; c++)
-        for (int a = 0; a < 64; a++)
-            for (int b = 0; b < 64; b++) history[c][a][b] /= 2;
-    int prev = 0, maxd = lim.depth ? lim.depth : MAXPLY - 2;
-    Move best = first, previous_best = 0;
-    int stable = 0, previous_score = 0;
-    for (int d = 1; d <= maxd; d++) {
-        root_depth = d;
-        int alpha = -INF, beta = INF, delta = 18, score;
-        if (d >= 5) {
-            alpha = prev - delta;
-            beta = prev + delta;
-        }
-        for (;;) {
-            score = search(root, d, alpha, beta, 0, 1);
-            if (stopped) break;
-            if (score <= alpha) {
-                beta = (alpha + beta) / 2;
-                alpha = score - delta > -INF ? score - delta : -INF;
-            } else if (score >= beta) {
-                beta = score + delta < INF ? score + delta : INF;
-            } else
-                break;
-            delta += delta / 2 + 5;
-            if (delta > 800) {
-                alpha = -INF;
-                beta = INF;
-            }
-        }
-        if (stopped) {
-            if (d == 1) best = root_best;
-            else best = root_best; /* partial iterations only replace the move with a better one */
+    tt_age = (tt_age + 1) & 63;
+    for (int i = 0; i < g_nthreads; i++) {
+        Thread *t = &g_threads[i];
+        t->idx = i;
+        t->nodes = 0;
+        t->seldepth = 0;
+        t->root = *root;
+        t->first = first;
+        t->nlegal = nlegal;
+        t->final_best = first;
+        t->root_depth = 0;
+        t->hlen = g_hlen;
+        memcpy(t->hist, g_hist, sizeof(U64) * ((size_t)g_hlen + 1));
+        memset(t->killers, 0, sizeof t->killers);
+        memset(t->countermove, 0, sizeof t->countermove);
+        memset(t->eval_stack, 0, sizeof t->eval_stack);
+        for (int c = 0; c < 2; c++)
+            for (int a = 0; a < 64; a++)
+                for (int b = 0; b < 64; b++) t->history[c][a][b] /= 2;
+        if (!t->eval_cache) t->eval_cache = (EvalEntry *)calloc(65536, sizeof(EvalEntry));
+    }
+    for (int i = 1; i < g_nthreads; i++) {
+        if (pthread_create(&g_threads[i].tid, NULL, thread_main, &g_threads[i]) != 0) {
+            g_nthreads = i; /* fall back to fewer threads */
             break;
         }
-        best = root_best;
-        stable = best == previous_best ? stable + 1 : 0;
-        int score_drop = previous_score - score;
-        previous_best = best;
-        previous_score = score;
-        prev = score;
-        print_info(d, score, root);
-        if (!lim.infinite) {
-            long long el = now_ms() - lim.start;
-            /* Fixed movetime is a budget, not a fraction of a clock target.
-             * With a game clock, spend more on unstable or worsening moves. */
-            long long target = lim.soft;
-            if (!lim.fixed_time) {
-                target = target * (stable >= 4 ? 75 : stable >= 2 ? 90 : 125) / 100;
-                if (score_drop > 35) target = target * 3 / 2;
-                if (lim.hard && target > lim.hard) target = lim.hard;
-            }
-            if (target && el >= target) break;
-            if (nlegal == 1 && d >= 4 && lim.soft) break;
-            if (abs(score) >= MATE_BOUND && d >= 8) break;
-        }
     }
+    iterative(&g_threads[0], 1);
+    stopped = 1;
+    for (int i = 1; i < g_nthreads; i++) pthread_join(g_threads[i].tid, NULL);
     char s[8];
-    move_str(best, s);
+    move_str(g_threads[0].final_best, s);
     printf("bestmove %s\n", s);
     fflush(stdout);
 }
@@ -1452,7 +1548,7 @@ int main(void) {
         if (!strcmp(cmd, "uci")) {
             printf("id name Carnivorus 1.1\nid author slipperysponge67-bit\n");
             printf("option name Hash type spin default 64 min 1 max 4096\n");
-            printf("option name Threads type spin default 1 min 1 max 1\n");
+            printf("option name Threads type spin default 1 min 1 max 32\n");
             printf("option name Move Overhead type spin default 30 min 0 max 5000\n");
             printf("option name Clear Hash type button\n");
             printf("uciok\n");
@@ -1460,13 +1556,16 @@ int main(void) {
             printf("readyok\n");
         } else if (!strcmp(cmd, "ucinewgame")) {
             memset(tt, 0, (tt_mask + 1) * sizeof(TTE));
-            memset(history, 0, sizeof history);
+            for (int i = 0; i < g_nthreads; i++) memset(g_threads[i].history, 0, sizeof g_threads[i].history);
         } else if (!strncmp(cmd, "setoption", 9)) {
             char *nm = strstr(cmd, "name"), *vl = strstr(cmd, "value");
             if (nm && vl) {
                 if (!strncmp(nm + 5, "Hash", 4)) {
                     int mb = atoi(vl + 6);
                     tt_resize((size_t)(mb < 1 ? 1 : (mb > 4096 ? 4096 : mb)));
+                } else if (!strncmp(nm + 5, "Threads", 7)) {
+                    int nt = atoi(vl + 6);
+                    g_nthreads = nt < 1 ? 1 : (nt > MAXTHREADS ? MAXTHREADS : nt);
                 } else if (!strncmp(nm + 5, "Move Overhead", 13)) {
                     move_overhead = atoi(vl + 6);
                 }
@@ -1484,7 +1583,9 @@ int main(void) {
             snprintf(buf, sizeof buf, "perft %d", atoi(cmd + 5));
             go(buf);
         } else if (!strcmp(cmd, "feat")) {
+            edump_wanted = 1;
             eval_uncached(&g_pos);
+            edump_wanted = 0;
             printf("feat phase %d ks %d draw %d tempo %d side %c n %d f", edump.phase, edump.ks,
                    edump.draw, edump.tempo, edump.side == WHITE ? 'w' : 'b', edump.nf);
             for (int i = 0; i < edump.nf; i++) printf(" %d:%d", edump.fi[i], edump.fv[i]);

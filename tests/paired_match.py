@@ -25,14 +25,14 @@ def openings(path, ref):
     return out
 
 def play(job):
-    idx, opening, a, b, nodes, mt, elo = job
+    idx, opening, a, b, nodes, mt, elo, ta, tb = job
     board=chess.Board()
     for m in opening.split(): board.push_uci(m)
     engines=[]; err=None; aw=idx%2==0
     try:
-        for cmd in (a,b):
+        for cmd,nt in ((a,ta),(b,tb)):
             e=chess.engine.SimpleEngine.popen_uci(cmd)
-            e.configure({'Hash':32,'Threads':1})
+            e.configure({'Hash':32,'Threads':nt})
             if 'Move Overhead' in e.options: e.configure({'Move Overhead':0})
             engines.append(e)
         if elo: engines[1].configure({'UCI_LimitStrength':True,'UCI_Elo':elo,'Use NNUE':False})
@@ -71,9 +71,9 @@ def summary(rows):
     se=(sum((x-sum(ps)/len(ps))**2 for x in ps)/(len(ps)-1)/len(ps))**.5 if len(ps)>1 else .5
     return {'n':n,'wins':w,'draws':d,'losses':l,'score':s,'elo_diff':elo(s),'approx_95_elo':[elo(s-1.96*se),elo(s+1.96*se)],'errors':[r['error'] for r in rows if r['error']]}
 if __name__=='__main__':
-    p=argparse.ArgumentParser(); p.add_argument('a'); p.add_argument('b'); p.add_argument('--games',type=int,default=16); p.add_argument('--start',type=int,default=0); p.add_argument('--nodes',type=int); p.add_argument('--time',type=float,default=.08); p.add_argument('--elo',type=int); p.add_argument('--out',required=True); p.add_argument('--workers',type=int,default=2); p.add_argument('--openings',default='tests/openings.json'); p.add_argument('--sf',default='/tmp/sf/usr/games/stockfish'); args=p.parse_args()
+    p=argparse.ArgumentParser(); p.add_argument('a'); p.add_argument('b'); p.add_argument('--games',type=int,default=16); p.add_argument('--start',type=int,default=0); p.add_argument('--nodes',type=int); p.add_argument('--time',type=float,default=.08); p.add_argument('--elo',type=int); p.add_argument('--out',required=True); p.add_argument('--workers',type=int,default=2); p.add_argument('--threads-a',type=int,default=1); p.add_argument('--threads-b',type=int,default=1); p.add_argument('--openings',default='tests/openings.json'); p.add_argument('--sf',default='/tmp/sf/usr/games/stockfish'); args=p.parse_args()
     ops=openings(args.openings,args.sf)
-    jobs=[(i,ops[(i//2)%len(ops)],os.path.abspath(args.a),os.path.abspath(args.b),args.nodes,args.time,args.elo) for i in range(args.start,args.start+args.games)]
+    jobs=[(i,ops[(i//2)%len(ops)],os.path.abspath(args.a),os.path.abspath(args.b),args.nodes,args.time,args.elo,args.threads_a,args.threads_b) for i in range(args.start,args.start+args.games)]
     rows=[]
     with concurrent.futures.ThreadPoolExecutor(max_workers=args.workers) as pool:
         for r in pool.map(play,jobs):
