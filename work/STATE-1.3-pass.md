@@ -1,0 +1,8 @@
+# 1.3 pass working state (internal, do not push)
+Baselines: /tmp/eng-t3 = 81faa88 (current main, 1.2+SE). Screens: paired_match.py CAND /tmp/eng-t3, nodes=8000, positive elo_diff = candidate better.
+Done: tt4 (4-way TT buckets) +1.6 [-25,+28] 224g -> neutral, parked on branch cand-tt4 pending optional TC check. razor (depth<=3, margin 300) -14 [-48,+20] 224g -> DISCARDED (branch cand-razor).
+Running: screen-seeq (quiet SEE prune -25*d*d, /tmp/eng-seeq, branch cand-seeq), screen-cut (cutnode LMR +1, /tmp/eng-cut, branch cand-cutnode), screen-ch2ext (continuation history ext games 224..447, /tmp/eng-ch, branch cand-chist-solo; first 224g were +17 [-21,+55] -> pool with screen-ch2.jsonl).
+Texel r4: /tmp/r4_pipeline.sh log /tmp/r4.log -> work/tune_pos_r4.txt then work/features_r4.txt then work/tuned_v4.npz. If val loss improves on 0.09261: tests/apply_weights.py work/tuned_v4.npz on top of kept-search-build, screen as texel4.
+Push needs fresh PAT via cloud browser (github.com logged in); issue comments via tools github add-issue-comment. SF at /tmp/sf/usr/games/stockfish (15.1).
+
+Update 14:05: texel4 DISCARDED (match -19 despite val gain). badcap +23 [-11,+58] KEPT into integ-13. hp = no-op (identical play), discarded. razoring discarded. integ-13 branch = 81faa88 + chist + cutnode + seeq + badcap, screen-i13 +28.6 [-4,+62] 256g nodes. TC confirm screen-i13tc running (128g @35ms). cand-chist2 (follow-up history on top of integ-13) screening as screen-ch2ply vs /tmp/eng-i13. 1.1 binary rebuilt at /tmp/eng-11 (source d4c4436==f3cb781, identifies as Carnivorus 1.1). Final validation must use --openings tests/validation_openings.json (256). Stash@{0} holds tune_openings.json + r4 data files (pop later for evidence commit).

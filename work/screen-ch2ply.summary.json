@@ -1,0 +1,14 @@
+{
+  "n": 224,
+  "wins": 91,
+  "draws": 64,
+  "losses": 69,
+  "score": 0.549107,
+  "elo_diff": 34.23,
+  "approx_95_elo": [
+    -11.16,
+    80.83
+  ],
+  "errors": [],
+  "note": "deduplicated to unique game indices 0-223 (resumed run had appended duplicate openings 79-86)"
+}

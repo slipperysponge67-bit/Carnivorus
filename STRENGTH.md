@@ -82,3 +82,23 @@ matches are the meaningful evidence.
 
 Final validation PGNs: `MATCHES-1.3-nodes.pgn`, `MATCHES-1.3-tc.pgn`.
 Summaries are in `MATCH_RESULTS.json`; per-game records are under `work/`.
+
+## Post-1.3: follow-up continuation history (1.3.1)
+
+One more measured win landed after the 1.3 delivery: a 2-ply follow-up
+continuation history table (same shape and update rule as the 1-ply
+continuation history kept in 1.3), used in quiet-move ordering, LMR reduction
+and fail-high history updates. All original code.
+
+Screened against the shipped 1.3 build, paired openings, one thread:
+
+| Match | Games | 1.3.1 W/D/L | 1.3.1 score | Implied Elo difference |
+| --- | ---: | --- | ---: | ---: |
+| nodes=8000 per move | 224 | 91/64/69 | 54.91% | +34 |
+| 35 ms/move | 128 | 45/46/37 | 53.13% | +22 |
+
+Approximate 95% intervals: -11 to +81 (nodes) and -17 to +61 (time control).
+Both conditions positive and consistent, the same evidence bar the kept 1.3
+changes met. Per-game records: `work/screen-ch2ply.jsonl` (deduplicated to
+unique openings 0-223 after a killed resume repeated 12 games) and
+`work/screen-ch2tc.jsonl`; summaries in `MATCH_RESULTS.json`.

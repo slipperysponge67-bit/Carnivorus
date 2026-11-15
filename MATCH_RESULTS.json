@@ -433,5 +433,32 @@
       115.26164285261684
     ],
     "errors": []
+  },
+  "screen-ch2ply.summary.json": {
+    "n": 224,
+    "wins": 91,
+    "draws": 64,
+    "losses": 69,
+    "score": 0.549107,
+    "elo_diff": 34.23,
+    "approx_95_elo": [
+      -11.16,
+      80.83
+    ],
+    "errors": [],
+    "note": "deduplicated to unique game indices 0-223 (resumed run had appended duplicate openings 79-86)"
+  },
+  "screen-ch2tc.summary.json": {
+    "n": 128,
+    "wins": 45,
+    "draws": 46,
+    "losses": 37,
+    "score": 0.53125,
+    "elo_diff": 21.74306492903707,
+    "approx_95_elo": [
+      -16.591388409991524,
+      60.61585884126456
+    ],
+    "errors": []
   }
 }
