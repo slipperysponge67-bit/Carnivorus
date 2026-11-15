@@ -1,268 +1,437 @@
 {
- "longer-v1.summary.json": {
-  "n": 16,
-  "wins": 13,
-  "draws": 3,
-  "losses": 0,
-  "score": 0.90625,
-  "elo_diff": 394.1106972717174,
-  "approx_95_elo": [
-   259.431468360832,
-   954.6336550640461
-  ],
-  "errors": []
- },
- "eval-qfix.summary.json": {
-  "n": 64,
-  "wins": 22,
-  "draws": 17,
-  "losses": 25,
-  "score": 0.4765625,
-  "elo_diff": -16.297987076023766,
-  "approx_95_elo": [
-   -93.96796069289475,
-   59.75196293061092
-  ],
-  "errors": []
- },
- "sf2200.summary.json": {
-  "n": 32,
-  "wins": 13,
-  "draws": 6,
-  "losses": 13,
-  "score": 0.5,
-  "elo_diff": 0.0,
-  "approx_95_elo": [
-   -134.4927679162339,
-   134.4927679162339
-  ],
-  "errors": []
- },
- "sf2400.summary.json": {
-  "n": 48,
-  "wins": 10,
-  "draws": 14,
-  "losses": 24,
-  "score": 0.3541666666666667,
-  "elo_diff": -104.36510898239948,
-  "approx_95_elo": [
-   -196.32363930320733,
-   -24.921704516612923
-  ],
-  "errors": []
- },
- "history-qfix.summary.json": {
-  "n": 64,
-  "wins": 19,
-  "draws": 23,
-  "losses": 22,
-  "score": 0.4765625,
-  "elo_diff": -16.297987076023766,
-  "approx_95_elo": [
-   -79.48030016631462,
-   45.81387133839607
-  ],
-  "errors": []
- },
- "cache-qfix.summary.json": {
-  "n": 32,
-  "wins": 12,
-  "draws": 13,
-  "losses": 7,
-  "score": 0.578125,
-  "elo_diff": 54.735183963203085,
-  "approx_95_elo": [
-   -5.652515831814054,
-   118.63053040082347
-  ],
-  "errors": []
- },
- "qfix-see.summary.json": {
-  "n": 32,
-  "wins": 14,
-  "draws": 11,
-  "losses": 7,
-  "score": 0.609375,
-  "elo_diff": 77.24983934178465,
-  "approx_95_elo": [
-   -11.74439591732059,
-   177.79240145898316
-  ],
-  "errors": []
- },
- "holdout-v1.summary.json": {
-  "n": 48,
-  "wins": 36,
-  "draws": 10,
-  "losses": 2,
-  "score": 0.8541666666666666,
-  "elo_diff": 307.07432668219144,
-  "approx_95_elo": [
-   216.44303415996467,
-   454.0404100976801
-  ],
-  "errors": []
- },
- "see-v1.summary.json": {
-  "n": 24,
-  "wins": 16,
-  "draws": 4,
-  "losses": 4,
-  "score": 0.75,
-  "elo_diff": 190.84850188786498,
-  "approx_95_elo": [
-   72.07349488755709,
-   377.3789726133459
-  ],
-  "errors": []
- },
- "validation-v1.summary.json": {
-  "n": 128,
-  "wins": 91,
-  "draws": 25,
-  "losses": 12,
-  "score": 0.80859375,
-  "elo_diff": 250.30970617136163,
-  "approx_95_elo": [
-   194.86495148314177,
-   319.5361727143351
-  ],
-  "errors": []
- },
- "final13-nodes.summary.json": {
-  "n": 256,
-  "wins": 125,
-  "draws": 55,
-  "losses": 76,
-  "score": 0.595703125,
-  "elo_diff": 67.33179755594725,
-  "approx_95_elo": [
-   28.587920589083925,
-   107.81119169165495
-  ],
-  "errors": []
- },
- "final13-tc.summary.json": {
-  "n": 128,
-  "wins": 56,
-  "draws": 39,
-  "losses": 33,
-  "score": 0.58984375,
-  "elo_diff": 63.11505928929254,
-  "approx_95_elo": [
-   18.643590602558078,
-   109.74374390657611
-  ],
-  "errors": []
- },
- "cal13-sf2200.summary.json": {
-  "n": 32,
-  "wins": 16,
-  "draws": 4,
-  "losses": 12,
-  "score": 0.5625,
-  "elo_diff": 43.657787770027234,
-  "approx_95_elo": [
-   -80.34284367029663,
-   180.4458480172016
-  ],
-  "errors": []
- },
- "cal13-sf2300.summary.json": {
-  "n": 32,
-  "wins": 12,
-  "draws": 8,
-  "losses": 12,
-  "score": 0.5,
-  "elo_diff": 0.0,
-  "approx_95_elo": [
-   -111.33167991825408,
-   111.33167991825408
-  ],
-  "errors": []
- },
- "cal13-sf2400.summary.json": {
-  "n": 48,
-  "wins": 10,
-  "draws": 12,
-  "losses": 26,
-  "score": 0.3333333333333333,
-  "elo_diff": -120.4119982655925,
-  "approx_95_elo": [
-   -219.4864730864581,
-   -37.46692884592409
-  ],
-  "errors": []
- },
- "cal11-sf2300.summary.json": {
-  "n": 32,
-  "wins": 11,
-  "draws": 9,
-  "losses": 12,
-  "score": 0.484375,
-  "elo_diff": -10.86089841744591,
-  "approx_95_elo": [
-   -104.33695425934597,
-   81.03292744661957
-  ],
-  "errors": []
- },
- "smp-2t-vs-1t-35ms": {
-  "n": 74,
-  "wins": 27,
-  "draws": 28,
-  "losses": 19,
-  "score": 0.5540540540540541
- },
- "final14-nodes.summary.json": {
-  "n": 256,
-  "wins": 126,
-  "draws": 61,
-  "losses": 69,
-  "score": 0.611328125,
-  "elo_diff": 78.67650445469674,
-  "approx_95_elo": [
-   40.771553710718166,
-   118.52553921453111
-  ],
-  "errors": []
- },
- "final14-tc.summary.json": {
-  "n": 126,
-  "wins": 45,
-  "draws": 47,
-  "losses": 34,
-  "score": 0.5436507936507936,
-  "elo_diff": 30.409090721118005,
-  "approx_95_elo": [
-   -16.252890773320114,
-   78.19865049390738
-  ]
- },
- "screen-se.summary.json": {
-  "n": 224,
-  "wins": 81,
-  "draws": 64,
-  "losses": 79,
-  "score": 0.5044642857142857,
-  "elo_diff": 3.102185878704922,
-  "approx_95_elo": [
-   -33.642804216744175,
-   39.91696380541647
-  ],
-  "errors": []
- },
- "screen-setc.summary.json": {
-  "n": 238,
-  "wins": 86,
-  "draws": 93,
-  "losses": 59,
-  "score": 0.5567226890756303,
-  "elo_diff": 39.5853674556461,
-  "approx_95_elo": [
-   3.4165449739064284,
-   76.63247923023417
-  ],
-  "errors": []
- }
+  "longer-v1.summary.json": {
+    "n": 16,
+    "wins": 13,
+    "draws": 3,
+    "losses": 0,
+    "score": 0.90625,
+    "elo_diff": 394.1106972717174,
+    "approx_95_elo": [
+      259.431468360832,
+      954.6336550640461
+    ],
+    "errors": []
+  },
+  "eval-qfix.summary.json": {
+    "n": 64,
+    "wins": 22,
+    "draws": 17,
+    "losses": 25,
+    "score": 0.4765625,
+    "elo_diff": -16.297987076023766,
+    "approx_95_elo": [
+      -93.96796069289475,
+      59.75196293061092
+    ],
+    "errors": []
+  },
+  "sf2200.summary.json": {
+    "n": 32,
+    "wins": 13,
+    "draws": 6,
+    "losses": 13,
+    "score": 0.5,
+    "elo_diff": 0.0,
+    "approx_95_elo": [
+      -134.4927679162339,
+      134.4927679162339
+    ],
+    "errors": []
+  },
+  "sf2400.summary.json": {
+    "n": 48,
+    "wins": 10,
+    "draws": 14,
+    "losses": 24,
+    "score": 0.3541666666666667,
+    "elo_diff": -104.36510898239948,
+    "approx_95_elo": [
+      -196.32363930320733,
+      -24.921704516612923
+    ],
+    "errors": []
+  },
+  "history-qfix.summary.json": {
+    "n": 64,
+    "wins": 19,
+    "draws": 23,
+    "losses": 22,
+    "score": 0.4765625,
+    "elo_diff": -16.297987076023766,
+    "approx_95_elo": [
+      -79.48030016631462,
+      45.81387133839607
+    ],
+    "errors": []
+  },
+  "cache-qfix.summary.json": {
+    "n": 32,
+    "wins": 12,
+    "draws": 13,
+    "losses": 7,
+    "score": 0.578125,
+    "elo_diff": 54.735183963203085,
+    "approx_95_elo": [
+      -5.652515831814054,
+      118.63053040082347
+    ],
+    "errors": []
+  },
+  "qfix-see.summary.json": {
+    "n": 32,
+    "wins": 14,
+    "draws": 11,
+    "losses": 7,
+    "score": 0.609375,
+    "elo_diff": 77.24983934178465,
+    "approx_95_elo": [
+      -11.74439591732059,
+      177.79240145898316
+    ],
+    "errors": []
+  },
+  "holdout-v1.summary.json": {
+    "n": 48,
+    "wins": 36,
+    "draws": 10,
+    "losses": 2,
+    "score": 0.8541666666666666,
+    "elo_diff": 307.07432668219144,
+    "approx_95_elo": [
+      216.44303415996467,
+      454.0404100976801
+    ],
+    "errors": []
+  },
+  "see-v1.summary.json": {
+    "n": 24,
+    "wins": 16,
+    "draws": 4,
+    "losses": 4,
+    "score": 0.75,
+    "elo_diff": 190.84850188786498,
+    "approx_95_elo": [
+      72.07349488755709,
+      377.3789726133459
+    ],
+    "errors": []
+  },
+  "validation-v1.summary.json": {
+    "n": 128,
+    "wins": 91,
+    "draws": 25,
+    "losses": 12,
+    "score": 0.80859375,
+    "elo_diff": 250.30970617136163,
+    "approx_95_elo": [
+      194.86495148314177,
+      319.5361727143351
+    ],
+    "errors": []
+  },
+  "final13-nodes.summary.json": {
+    "n": 256,
+    "wins": 125,
+    "draws": 55,
+    "losses": 76,
+    "score": 0.595703125,
+    "elo_diff": 67.33179755594725,
+    "approx_95_elo": [
+      28.587920589083925,
+      107.81119169165495
+    ],
+    "errors": []
+  },
+  "final13-tc.summary.json": {
+    "n": 128,
+    "wins": 56,
+    "draws": 39,
+    "losses": 33,
+    "score": 0.58984375,
+    "elo_diff": 63.11505928929254,
+    "approx_95_elo": [
+      18.643590602558078,
+      109.74374390657611
+    ],
+    "errors": []
+  },
+  "cal13-sf2200.summary.json": {
+    "n": 32,
+    "wins": 16,
+    "draws": 4,
+    "losses": 12,
+    "score": 0.5625,
+    "elo_diff": 43.657787770027234,
+    "approx_95_elo": [
+      -80.34284367029663,
+      180.4458480172016
+    ],
+    "errors": []
+  },
+  "cal13-sf2300.summary.json": {
+    "n": 32,
+    "wins": 12,
+    "draws": 8,
+    "losses": 12,
+    "score": 0.5,
+    "elo_diff": 0.0,
+    "approx_95_elo": [
+      -111.33167991825408,
+      111.33167991825408
+    ],
+    "errors": []
+  },
+  "cal13-sf2400.summary.json": {
+    "n": 48,
+    "wins": 10,
+    "draws": 12,
+    "losses": 26,
+    "score": 0.3333333333333333,
+    "elo_diff": -120.4119982655925,
+    "approx_95_elo": [
+      -219.4864730864581,
+      -37.46692884592409
+    ],
+    "errors": []
+  },
+  "cal11-sf2300.summary.json": {
+    "n": 32,
+    "wins": 11,
+    "draws": 9,
+    "losses": 12,
+    "score": 0.484375,
+    "elo_diff": -10.86089841744591,
+    "approx_95_elo": [
+      -104.33695425934597,
+      81.03292744661957
+    ],
+    "errors": []
+  },
+  "smp-2t-vs-1t-35ms": {
+    "n": 74,
+    "wins": 27,
+    "draws": 28,
+    "losses": 19,
+    "score": 0.5540540540540541
+  },
+  "final14-nodes.summary.json": {
+    "n": 256,
+    "wins": 126,
+    "draws": 61,
+    "losses": 69,
+    "score": 0.611328125,
+    "elo_diff": 78.67650445469674,
+    "approx_95_elo": [
+      40.771553710718166,
+      118.52553921453111
+    ],
+    "errors": []
+  },
+  "final14-tc.summary.json": {
+    "n": 126,
+    "wins": 45,
+    "draws": 47,
+    "losses": 34,
+    "score": 0.5436507936507936,
+    "elo_diff": 30.409090721118005,
+    "approx_95_elo": [
+      -16.252890773320114,
+      78.19865049390738
+    ]
+  },
+  "screen-se.summary.json": {
+    "n": 224,
+    "wins": 81,
+    "draws": 64,
+    "losses": 79,
+    "score": 0.5044642857142857,
+    "elo_diff": 3.102185878704922,
+    "approx_95_elo": [
+      -33.642804216744175,
+      39.91696380541647
+    ],
+    "errors": []
+  },
+  "screen-setc.summary.json": {
+    "n": 238,
+    "wins": 86,
+    "draws": 93,
+    "losses": 59,
+    "score": 0.5567226890756303,
+    "elo_diff": 39.5853674556461,
+    "approx_95_elo": [
+      3.4165449739064284,
+      76.63247923023417
+    ],
+    "errors": []
+  },
+  "screen-ch2.summary.json": {
+    "n": 224,
+    "wins": 89,
+    "draws": 57,
+    "losses": 78,
+    "score": 0.5245535714285714,
+    "elo_diff": 17.07530353319941,
+    "approx_95_elo": [
+      -20.849259584330433,
+      55.412519124840934
+    ],
+    "errors": []
+  },
+  "screen-ch2ext.summary.json": {
+    "n": 224,
+    "wins": 86,
+    "draws": 60,
+    "losses": 78,
+    "score": 0.5178571428571429,
+    "elo_diff": 12.413693495987527,
+    "approx_95_elo": [
+      -26.682487265329698,
+      51.82802532645895
+    ],
+    "errors": []
+  },
+  "screen-seeq.summary.json": {
+    "n": 224,
+    "wins": 88,
+    "draws": 62,
+    "losses": 74,
+    "score": 0.53125,
+    "elo_diff": 21.74306492903707,
+    "approx_95_elo": [
+      -16.223530276909607,
+      60.23760494505631
+    ],
+    "errors": []
+  },
+  "screen-cut.summary.json": {
+    "n": 224,
+    "wins": 86,
+    "draws": 68,
+    "losses": 70,
+    "score": 0.5357142857142857,
+    "elo_diff": 24.859162699537773,
+    "approx_95_elo": [
+      -11.796026626125162,
+      62.07741184409311
+    ],
+    "errors": []
+  },
+  "screen-badcap.summary.json": {
+    "n": 224,
+    "wins": 88,
+    "draws": 63,
+    "losses": 73,
+    "score": 0.5334821428571429,
+    "elo_diff": 23.300645934833515,
+    "approx_95_elo": [
+      -11.15057026127585,
+      58.217100762663975
+    ],
+    "errors": []
+  },
+  "screen-i13.summary.json": {
+    "n": 256,
+    "wins": 104,
+    "draws": 69,
+    "losses": 83,
+    "score": 0.541015625,
+    "elo_diff": 28.564762717084918,
+    "approx_95_elo": [
+      -3.9387857903425854,
+      61.5764947013316
+    ],
+    "errors": []
+  },
+  "screen-i13tc.summary.json": {
+    "n": 128,
+    "wins": 47,
+    "draws": 46,
+    "losses": 35,
+    "score": 0.546875,
+    "elo_diff": 32.668018580527814,
+    "approx_95_elo": [
+      -10.911345084246433,
+      77.30277106063976
+    ],
+    "errors": []
+  },
+  "screen-texel4.summary.json": {
+    "n": 224,
+    "wins": 76,
+    "draws": 60,
+    "losses": 88,
+    "score": 0.4732142857142857,
+    "elo_diff": -18.63045681654207,
+    "approx_95_elo": [
+      -59.07466060051152,
+      21.31333118026464
+    ],
+    "errors": []
+  },
+  "screen-razor.summary.json": {
+    "n": 224,
+    "wins": 74,
+    "draws": 67,
+    "losses": 83,
+    "score": 0.4799107142857143,
+    "elo_diff": -13.966984444165437,
+    "approx_95_elo": [
+      -47.748255480477354,
+      19.551581131506694
+    ],
+    "errors": []
+  },
+  "screen-hp.summary.json": {
+    "n": 224,
+    "wins": 86,
+    "draws": 52,
+    "losses": 86,
+    "score": 0.5,
+    "elo_diff": 0.0,
+    "approx_95_elo": [
+      0.0,
+      0.0
+    ],
+    "errors": []
+  },
+  "screen-tt4.summary.json": {
+    "n": 224,
+    "wins": 81,
+    "draws": 63,
+    "losses": 80,
+    "score": 0.5022321428571429,
+    "elo_diff": 1.5510620252807668,
+    "approx_95_elo": [
+      -24.936134289388782,
+      28.056334980838216
+    ],
+    "errors": []
+  },
+  "final15-nodes.summary.json": {
+    "n": 256,
+    "wins": 113,
+    "draws": 64,
+    "losses": 79,
+    "score": 0.56640625,
+    "elo_diff": 46.41800937932698,
+    "approx_95_elo": [
+      9.048985414339857,
+      84.8905548432018
+    ],
+    "errors": []
+  },
+  "final15-tc.summary.json": {
+    "n": 128,
+    "wins": 56,
+    "draws": 42,
+    "losses": 30,
+    "score": 0.6015625,
+    "elo_diff": 71.5682196298182,
+    "approx_95_elo": [
+      30.008734997320687,
+      115.26164285261684
+    ],
+    "errors": []
+  }
 }
