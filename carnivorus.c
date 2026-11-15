@@ -943,7 +943,9 @@ typedef struct Thread {
     Move killers[MAXPLY][2];
     int history[2][64][64];
     Move countermove[64][64];
+    int chist[12][64][12][64]; /* continuation history: (prev pc,to) -> (pc,to) */
     Move stack_move[MAXPLY + 2];
+    int stack_pc[MAXPLY + 2];
     int eval_stack[MAXPLY + 2];
     Move pv[MAXPLY][MAXPLY];
     int pv_len[MAXPLY];
@@ -1133,7 +1135,8 @@ static int qsearch(Thread *t, const Pos *p, int alpha, int beta, int ply, int qd
     return best;
 }
 
-static int search(Thread *t, const Pos *p, int depth, int alpha, int beta, int ply, int donull, Move excl) {
+static int search(Thread *t, const Pos *p, int depth, int alpha, int beta, int ply, int donull, Move excl,
+                  int cutnode) {
     int pvnode = beta - alpha > 1;
     t->pv_len[ply] = ply;
     t->hist[t->hlen + ply] = p->key;
@@ -1168,14 +1171,22 @@ static int search(Thread *t, const Pos *p, int depth, int alpha, int beta, int p
     t->eval_stack[ply] = se;
     int improving = !incheck && ply >= 2 && t->eval_stack[ply - 2] != NOEVAL && se > t->eval_stack[ply - 2];
 
+    /* razoring: at shallow depth, if the static eval is well below alpha,
+     * fall into qsearch; keep its result only when it still fails low */
+    if (!pvnode && !incheck && depth <= 3 && se + 300 * depth <= alpha) {
+        int rs = qsearch(t, p, alpha, beta, ply, 0);
+        if (stopped) return 0;
+        if (rs <= alpha) return rs;
+    }
     if (!pvnode && !incheck && abs(beta) < MATE_BOUND) {
         if (depth <= 6 && se - 85 * depth + (improving ? 40 : 0) >= beta) return se;
         if (donull && depth >= 3 && se >= beta && has_nonpawn(p, us)) {
             Pos np = *p;
             make_null(&np);
             t->stack_move[ply] = 0;
+            t->stack_pc[ply] = -1;
             int R = 3 + depth / 4 + ((se - beta) / 200 > 3 ? 3 : (se - beta) / 200);
-            int score = -search(t, &np, depth - 1 - R, -beta, -beta + 1, ply + 1, 0, 0);
+            int score = -search(t, &np, depth - 1 - R, -beta, -beta + 1, ply + 1, 0, 0, !cutnode);
             if (stopped) return 0;
             if (score >= beta) return score >= MATE_BOUND ? beta : score;
         }
@@ -1190,7 +1201,7 @@ static int search(Thread *t, const Pos *p, int depth, int alpha, int beta, int p
         int ts = score_from_tt(tts, ply);
         int sbeta = ts - 2 * depth;
         if (sbeta < -MATE_BOUND) sbeta = -MATE_BOUND;
-        int s = search(t, p, (depth - 1) / 2, sbeta - 1, sbeta, ply, 0, ttmove);
+        int s = search(t, p, (depth - 1) / 2, sbeta - 1, sbeta, ply, 0, ttmove, cutnode);
         if (!stopped && s < sbeta) singular = ttmove;
     }
 
@@ -1214,7 +1225,12 @@ static int search(Thread *t, const Pos *p, int depth, int alpha, int beta, int p
         } else if (m == t->killers[ply][0]) s = 8000000;
         else if (m == t->killers[ply][1]) s = 7000000;
         else if (m == cm) s = 6000000;
-        else s = t->history[us][MFROM(m)][MTO(m)];
+        else {
+            int h = t->history[us][MFROM(m)][MTO(m)];
+            int pc1 = ply > 0 ? t->stack_pc[ply - 1] : -1;
+            if (pc1 >= 0) h += t->chist[pc1][MTO(prev)][p->board[MFROM(m)]][MTO(m)];
+            s = h;
+        }
         sc[i] = s;
     }
     int legal = 0, best = -INF, oa = alpha;
@@ -1238,30 +1254,40 @@ static int search(Thread *t, const Pos *p, int depth, int alpha, int beta, int p
             if (quiet && depth <= 4 && legal >= 3 + depth * depth) continue;
             if (quiet && depth <= 5 && se + 90 + 90 * depth <= alpha) continue;
             if ((m & F_CAP) && depth <= 6 && msc < 0 && see(p, m) < -80 * depth) continue;
+            if (quiet && depth <= 8 && see(p, m) < -25 * depth * depth) continue;
         }
         legal++;
         int newdepth = depth - 1 + (m == singular);
         t->stack_move[ply] = m;
+        t->stack_pc[ply] = p->board[MFROM(m)];
         int score;
         if (legal == 1) {
-            score = -search(t, &np, newdepth, -beta, -alpha, ply + 1, 1, 0);
+            score = -search(t, &np, newdepth, -beta, -alpha, ply + 1, 1, 0, pvnode ? 0 : !cutnode);
         } else {
             int r = 0;
+            if (depth >= 3 && legal >= (pvnode ? 4 : 3) && !quiet && (m & F_CAP) && msc < 0)
+                r = 1; /* late bad capture: reduce one ply, re-search on fail high */
             if (depth >= 3 && legal >= (pvnode ? 4 : 3) && quiet) {
                 r = lmr_tab[depth < 63 ? depth : 63][legal < 63 ? legal : 63];
                 if (!pvnode) r++;
                 if (!improving) r++;
+                if (cutnode) r++;
                 if (incheck) r--;
                 if (gives_check) r--;
                 if (m == t->killers[ply][0] || m == t->killers[ply][1]) r--;
-                r -= t->history[us][MFROM(m)][MTO(m)] / 5000;
+                {
+                    int hh = t->history[us][MFROM(m)][MTO(m)];
+                    int pc1 = ply > 0 ? t->stack_pc[ply - 1] : -1;
+                    if (pc1 >= 0) hh += t->chist[pc1][MTO(prev)][p->board[MFROM(m)]][MTO(m)];
+                    r -= hh / 5000;
+                }
                 if (r < 0) r = 0;
                 if (r > newdepth - 1) r = newdepth - 1;
                 if (r < 0) r = 0;
             }
-            score = -search(t, &np, newdepth - r, -alpha - 1, -alpha, ply + 1, 1, 0);
-            if (score > alpha && r > 0) score = -search(t, &np, newdepth, -alpha - 1, -alpha, ply + 1, 1, 0);
-            if (score > alpha && score < beta) score = -search(t, &np, newdepth, -beta, -alpha, ply + 1, 1, 0);
+            score = -search(t, &np, newdepth - r, -alpha - 1, -alpha, ply + 1, 1, 0, !cutnode);
+            if (score > alpha && r > 0) score = -search(t, &np, newdepth, -alpha - 1, -alpha, ply + 1, 1, 0, !cutnode);
+            if (score > alpha && score < beta) score = -search(t, &np, newdepth, -beta, -alpha, ply + 1, 1, 0, 0);
         }
         if (stopped) return 0;
         if (quiet && nq < 64) quiets[nq++] = m;
@@ -1281,10 +1307,15 @@ static int search(Thread *t, const Pos *p, int depth, int alpha, int beta, int p
                             t->killers[ply][0] = m;
                         }
                         int bonus = depth * depth > 400 ? 400 : depth * depth;
+                        int pc1 = ply > 0 ? t->stack_pc[ply - 1] : -1;
                         for (int k = 0; k < nq; k++) {
                             int *h = &t->history[us][MFROM(quiets[k])][MTO(quiets[k])];
                             int b = quiets[k] == m ? bonus : -bonus;
                             *h += b - *h * abs(b) / 8000;
+                            if (pc1 >= 0) {
+                                int *h2 = &t->chist[pc1][MTO(prev)][p->board[MFROM(quiets[k])]][MTO(quiets[k])];
+                                *h2 += b - *h2 * abs(b) / 8000;
+                            }
                         }
                         if (prev) t->countermove[MFROM(prev)][MTO(prev)] = m;
                     }
@@ -1339,7 +1370,7 @@ static void iterative(Thread *t, int is_main) {
             beta = prev + delta;
         }
         for (;;) {
-            score = search(t, &t->root, d, alpha, beta, 0, 1, 0);
+            score = search(t, &t->root, d, alpha, beta, 0, 1, 0, 0);
             if (stopped) break;
             if (!is_main) break; /* helpers search full-window */
             if (score <= alpha) {
@@ -1429,6 +1460,10 @@ static void think(const Pos *root) {
         for (int c = 0; c < 2; c++)
             for (int a = 0; a < 64; a++)
                 for (int b = 0; b < 64; b++) t->history[c][a][b] /= 2;
+        for (int a = 0; a < 12; a++)
+            for (int b = 0; b < 64; b++)
+                for (int c = 0; c < 12; c++)
+                    for (int d = 0; d < 64; d++) t->chist[a][b][c][d] /= 2;
         if (!t->eval_cache) t->eval_cache = (EvalEntry *)calloc(65536, sizeof(EvalEntry));
     }
     for (int i = 1; i < g_nthreads; i++) {
@@ -1559,7 +1594,7 @@ int main(void) {
         char *cmd = line;
         while (*cmd == ' ') cmd++;
         if (!strcmp(cmd, "uci")) {
-            printf("id name Carnivorus 1.2\nid author slipperysponge67-bit\n");
+            printf("id name Carnivorus 1.3\nid author slipperysponge67-bit\n");
             printf("option name Hash type spin default 64 min 1 max 4096\n");
             printf("option name Threads type spin default 1 min 1 max 32\n");
             printf("option name Move Overhead type spin default 30 min 0 max 5000\n");
@@ -1569,7 +1604,10 @@ int main(void) {
             printf("readyok\n");
         } else if (!strcmp(cmd, "ucinewgame")) {
             memset(tt, 0, (tt_mask + 1) * sizeof(TTE));
-            for (int i = 0; i < g_nthreads; i++) memset(g_threads[i].history, 0, sizeof g_threads[i].history);
+            for (int i = 0; i < g_nthreads; i++) {
+                memset(g_threads[i].history, 0, sizeof g_threads[i].history);
+                memset(g_threads[i].chist, 0, sizeof g_threads[i].chist);
+            }
         } else if (!strncmp(cmd, "setoption", 9)) {
             char *nm = strstr(cmd, "name"), *vl = strstr(cmd, "value");
             if (nm && vl) {
