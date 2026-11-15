@@ -944,6 +944,7 @@ typedef struct Thread {
     int history[2][64][64];
     Move countermove[64][64];
     int chist[12][64][12][64]; /* continuation history: (prev pc,to) -> (pc,to) */
+    int chist2[12][64][12][64]; /* follow-up: (pc,to) two plies ago -> (pc,to) */
     Move stack_move[MAXPLY + 2];
     int stack_pc[MAXPLY + 2];
     int eval_stack[MAXPLY + 2];
@@ -1229,6 +1230,8 @@ static int search(Thread *t, const Pos *p, int depth, int alpha, int beta, int p
             int h = t->history[us][MFROM(m)][MTO(m)];
             int pc1 = ply > 0 ? t->stack_pc[ply - 1] : -1;
             if (pc1 >= 0) h += t->chist[pc1][MTO(prev)][p->board[MFROM(m)]][MTO(m)];
+            int pc2 = ply > 1 ? t->stack_pc[ply - 2] : -1;
+            if (pc2 >= 0) h += t->chist2[pc2][MTO(t->stack_move[ply - 2])][p->board[MFROM(m)]][MTO(m)];
             s = h;
         }
         sc[i] = s;
@@ -1279,6 +1282,8 @@ static int search(Thread *t, const Pos *p, int depth, int alpha, int beta, int p
                     int hh = t->history[us][MFROM(m)][MTO(m)];
                     int pc1 = ply > 0 ? t->stack_pc[ply - 1] : -1;
                     if (pc1 >= 0) hh += t->chist[pc1][MTO(prev)][p->board[MFROM(m)]][MTO(m)];
+                    int pc2 = ply > 1 ? t->stack_pc[ply - 2] : -1;
+                    if (pc2 >= 0) hh += t->chist2[pc2][MTO(t->stack_move[ply - 2])][p->board[MFROM(m)]][MTO(m)];
                     r -= hh / 5000;
                 }
                 if (r < 0) r = 0;
@@ -1308,6 +1313,7 @@ static int search(Thread *t, const Pos *p, int depth, int alpha, int beta, int p
                         }
                         int bonus = depth * depth > 400 ? 400 : depth * depth;
                         int pc1 = ply > 0 ? t->stack_pc[ply - 1] : -1;
+                        int pc2 = ply > 1 ? t->stack_pc[ply - 2] : -1;
                         for (int k = 0; k < nq; k++) {
                             int *h = &t->history[us][MFROM(quiets[k])][MTO(quiets[k])];
                             int b = quiets[k] == m ? bonus : -bonus;
@@ -1315,6 +1321,10 @@ static int search(Thread *t, const Pos *p, int depth, int alpha, int beta, int p
                             if (pc1 >= 0) {
                                 int *h2 = &t->chist[pc1][MTO(prev)][p->board[MFROM(quiets[k])]][MTO(quiets[k])];
                                 *h2 += b - *h2 * abs(b) / 8000;
+                            }
+                            if (pc2 >= 0) {
+                                int *h3 = &t->chist2[pc2][MTO(t->stack_move[ply - 2])][p->board[MFROM(quiets[k])]][MTO(quiets[k])];
+                                *h3 += b - *h3 * abs(b) / 8000;
                             }
                         }
                         if (prev) t->countermove[MFROM(prev)][MTO(prev)] = m;
@@ -1463,7 +1473,10 @@ static void think(const Pos *root) {
         for (int a = 0; a < 12; a++)
             for (int b = 0; b < 64; b++)
                 for (int c = 0; c < 12; c++)
-                    for (int d = 0; d < 64; d++) t->chist[a][b][c][d] /= 2;
+                    for (int d = 0; d < 64; d++) {
+                        t->chist[a][b][c][d] /= 2;
+                        t->chist2[a][b][c][d] /= 2;
+                    }
         if (!t->eval_cache) t->eval_cache = (EvalEntry *)calloc(65536, sizeof(EvalEntry));
     }
     for (int i = 1; i < g_nthreads; i++) {
@@ -1607,6 +1620,7 @@ int main(void) {
             for (int i = 0; i < g_nthreads; i++) {
                 memset(g_threads[i].history, 0, sizeof g_threads[i].history);
                 memset(g_threads[i].chist, 0, sizeof g_threads[i].chist);
+                memset(g_threads[i].chist2, 0, sizeof g_threads[i].chist2);
             }
         } else if (!strncmp(cmd, "setoption", 9)) {
             char *nm = strstr(cmd, "name"), *vl = strstr(cmd, "value");
